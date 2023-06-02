@@ -38,8 +38,11 @@ class AuthenticatedSessionController extends Controller
             $url = RouteServiceProvider::HOME;
         }
 
-
-        return redirect()->intended($url);
+            $notification =array(
+            'message' =>  'User '.$request->user()->name.' Login Successfully',
+            'alert-type' => 'info'
+         );
+        return redirect()->intended($url)->with($notification);
     }
 
     /**
@@ -52,7 +55,10 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-
-        return redirect('/');
+        $notification =array(
+            'message' =>  'User Logout Successfully',
+            'alert-type' => 'success'
+         );
+        return redirect('/')->with($notification);
     }
 }

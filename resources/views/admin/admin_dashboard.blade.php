@@ -21,6 +21,9 @@
     <!-- core:css -->
     <link rel="stylesheet" href="{{ asset('backend/assets/vendors/core/core.css') }}">
     <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{ asset('backend/assets/vendors/datatables.net-bs5/dataTables.bootstrap5.css') }}">
+    <!-- End plugin css for this page -->
 
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="{{ asset('backend/assets/vendors/flatpickr/flatpickr.min.css') }}">
@@ -69,6 +72,8 @@
     <script src="{{ asset('backend/assets/vendors/core/core.js') }}"></script>
     <!-- endinject -->
 
+
+
     <!-- Plugin js for this page -->
     <script src="{{ asset('backend/assets/vendors/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('backend/assets/vendors/apexcharts/apexcharts.min.js') }}"></script>
@@ -108,6 +113,16 @@
         @endif
     </script>
     <!-- End custom js for this page -->
+    <!-- Sweet Alert Plugin js for this page -->
+    <script src="{{ asset('https://cdn.jsdelivr.net/npm/sweetalert2@10') }}"></script>
+    <script src="{{ asset('backend/assets/js/code.js') }}"></script>
+    <!-- End Sweet Alert js for this page -->
+    <!-- Datatable Plugin js for this page -->
+    <script src="{{ asset('backend/assets/vendors/datatables.net/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/data-table.js') }}"></script>
+    <!-- End Datatable custom js for this page -->
+
 
 
 </body>
