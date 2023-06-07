@@ -5,10 +5,10 @@
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit Property Type</li>
+                <li class="breadcrumb-item active" aria-current="page">All States</li>
                 </li>
             </ol>
-            <a href="{{ route('amenities.index') }}" class="btn btn-inverse-info">Show All Amenities</a>
+            <a href="{{ route('states.index') }}" class="btn btn-inverse-info">Show All States</a>
 
         </nav>
 
@@ -16,21 +16,21 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="card-title">Edit Amenities</h6>
-                        {!! Form::open([
-                            'method' => 'put',
-                            'route' => ['amenities.update', $amenity->id],
-                            'class' => 'forms-sample',
-                        ]) !!}
+                        <h6 class="card-title">Add State</h6>
+
+                        {{ Form::open(['route' => 'states.store', 'class' => 'forms-sample', 'method' => 'post']) }}
+                        <div class="mb-3">
+                            {!! Form::label('country_id', 'Country Name', ['class' => 'form-label']) !!}
+
+                            {!! Form::Select('country_id', $countries, null, ['class' => 'form-control', 'placeholder' => 'Select County']) !!}
+
+                        </div>
                         <div class="mb-3">
 
-                            {!! Form::label('amenities_name', 'Amenities Name', ['class' => 'form-label']) !!}
+                            {!! Form::label('name', 'Name', ['class' => 'form-label']) !!}
 
-                            {!! Form::text('amenities_name', $value = $amenity->amenities_name, [
-                                'class' => 'form-control',
-                                'placeholder' => 'Name',
-                            ]) !!}
-                            @error('amenities_name')
+                            {!! Form::text('name', $value = null, ['class' => 'form-control', 'placeholder' => 'Name']) !!}
+                            @error('name')
                                 <span class="text-danger pt-3">{{ $message }}</span>
                             @enderror
                         </div>

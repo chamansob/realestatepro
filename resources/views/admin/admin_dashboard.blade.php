@@ -19,9 +19,16 @@
     <!-- End fonts -->
 
     <!-- core:css -->
+
     <link rel="stylesheet" href="{{ asset('backend/assets/vendors/core/core.css') }}">
+
+
     <!-- endinject -->
     <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{ asset('backend/assets/vendors/select2/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/vendors/jquery-tags-input/jquery.tagsinput.min.css') }}">
+
+
     <link rel="stylesheet" href="{{ asset('backend/assets/vendors/datatables.net-bs5/dataTables.bootstrap5.css') }}">
     <!-- End plugin css for this page -->
 
@@ -72,8 +79,9 @@
     <script src="{{ asset('backend/assets/vendors/core/core.js') }}"></script>
     <!-- endinject -->
 
-
-
+    <!-- Plugin js for this page -->
+    <script src="{{ asset('backend/assets/vendors/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendors/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
     <!-- Plugin js for this page -->
     <script src="{{ asset('backend/assets/vendors/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('backend/assets/vendors/apexcharts/apexcharts.min.js') }}"></script>
@@ -83,6 +91,8 @@
     <script src="{{ asset('backend/assets/vendors/feather-icons/feather.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/template.js') }}"></script>
     <!-- endinject -->
+    <script src="{{ asset('backend/assets/vendors/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendors/jquery-tags-input/jquery.tagsinput.min.js') }}"></script>
 
     <!-- Custom js for this page -->
     <script src="{{ asset('backend/assets/js/dashboard-dark.js') }}"></script>
@@ -122,8 +132,12 @@
     <script src="{{ asset('backend/assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js') }}"></script>
     <script src="{{ asset('backend/assets/js/data-table.js') }}"></script>
     <!-- End Datatable custom js for this page -->
-
-
+    <script src="{{ asset('backend/assets/vendors/tinymce/tinymce.min.js') }}"></script>
+    <!-- Custom js for this page -->
+    <script src="{{ asset('backend/assets/js/form-validation.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/select2.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/tags-input.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/tinymce.js') }}"></script>
 
 </body>
 

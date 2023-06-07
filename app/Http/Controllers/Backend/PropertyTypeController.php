@@ -69,7 +69,7 @@ class PropertyTypeController extends Controller
     public function update(Request $request, PropertyType $property_type)
     {
       $validated =  $request->validate([
-            'type_name' => 'required|unique:property_types|max:200',
+            'type_name' => 'required|max:200',
             'type_icon' => 'required|max:100',
         ]);
 

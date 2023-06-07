@@ -5,10 +5,10 @@
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit Property Type</li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Countries</li>
                 </li>
             </ol>
-            <a href="{{ route('property_types.index') }}" class="btn btn-inverse-info">Show All Type Property</a>
+            <a href="{{ route('countries.index') }}" class="btn btn-inverse-info">Show All Type Property</a>
 
         </nav>
 
@@ -16,31 +16,38 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="card-title">Edit Property Type</h6>
+                        <h6 class="card-title">Edit Countries</h6>
                         {!! Form::open([
                             'method' => 'put',
-                            'route' => ['property_types.update', $propert->id],
+                            'route' => ['countries.update', $countries->id],
                             'class' => 'forms-sample',
                         ]) !!}
                         <div class="mb-3">
 
-                            {!! Form::label('type_name', 'Property Type Name', ['class' => 'form-label']) !!}
+                            {!! Form::label('name', 'Country Name', ['class' => 'form-label']) !!}
 
-                            {!! Form::text('type_name', $value = $propert->type_name, [
+                            {!! Form::text('name', $value = $countries->name, [
                                 'class' => 'form-control',
-                                'placeholder' => 'Property Type Name',
+                                'placeholder' => 'Country Name',
                             ]) !!}
-                            @error('type_name')
+                            @error('name')
                                 <span class="text-danger pt-3">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            {!! Form::label('type_icon', 'Property Icon', ['class' => 'form-label']) !!}
-                            {!! Form::text('type_icon', $value = $propert->type_icon, [
+                            <?php
+                            $status = [
+                                '0' => 'Active',
+                                '1' => 'Deactive',
+                            ];
+                            ?>
+                            {!! Form::label('status', 'Status', ['class' => 'form-label']) !!}
+
+                            {!! Form::Select('status', $status, $city->status, [
                                 'class' => 'form-control',
-                                'placeholder' => 'Property Icon',
+                                'placeholder' => 'Select Status',
                             ]) !!}
-                            @error('type_icon')
+                            @error('status')
                                 <span class="text-danger pt-3">{{ $message }}</span>
                             @enderror
                         </div>

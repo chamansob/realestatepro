@@ -5,7 +5,11 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\PropertyTypeController;
+use App\Http\Controllers\Backend\PropertyController;
 use App\Http\Controllers\Backend\AmenitiesController;
+use App\Http\Controllers\Backend\CountryController;
+use App\Http\Controllers\Backend\StateController;
+use App\Http\Controllers\Backend\CityController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,36 +42,37 @@ Route::get('/dashboard', function () {
 // });
 
 // Admin Group Middleware
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     // Admin Dashboard All Routes
     Route::controller(AdminController::class)->group(function () {
-        Route::get('/admin/dashboard', 'AdminDashboard')->name('admin.dashboard');
-        Route::get('/admin/profile', 'AdminProfile')->name('admin.profile');
-        Route::post('/admin/profile/store',  'AdminProfileStore')->name('admin.profile.store');
-        Route::get('/admin/change/password',  'AdminChangePassword')->name('admin.change.password');
-        Route::post('/admin/password/update',  'AdminPasswordUpdate')->name('admin.password.update');
+        Route::get('/dashboard', 'AdminDashboard')->name('admin.dashboard');
+        Route::get('/profile', 'AdminProfile')->name('admin.profile');
+        Route::post('/profile/store',  'AdminProfileStore')->name('admin.profile.store');
+        Route::get('/change/password',  'AdminChangePassword')->name('admin.change.password');
+        Route::post('/password/update',  'AdminPasswordUpdate')->name('admin.password.update');
     });
     // Property Type All Routes
     Route::resource('property_types',PropertyTypeController::class);
-    // Route::controller(PropertyTypeController::class)->group(function () {
-    //     Route::get('/all/type',  'AllType')->name('all.type');
-    //     Route::get('/add/type',  'AddType')->name('add.type');
-    //     Route::post('/type/store',  'TypeStore')->name('type.store');
-    //     Route::get('/edit/type/{id}',  'EditType')->name('edit.type');
-    //     Route::post('/type/update/{id}',  'TypeUpdate')->name('type.update');
-    //     Route::get('/type/delete/{id}',  'TypeDelete')->name('delete.type');
-    // });
-
+    
+    // Property  All Routes
+    Route::resource('properties',PropertyController::class);
+    Route::post('/properties/states', [PropertyController::class, 'states'])->name('properties.states');
+   
     // Property Amenities Type All Routes
     Route::resource('amenities',AmenitiesController::class);
-    // Route::controller(AmenitiesController::class)->group(function () {
-    //     Route::get('/all/amenities',  'Index')->name('all.amenities');
-    //     Route::get('/add/amenities',  'Create')->name('add.amenities');
-    //     Route::post('/amenities/store',  'Store')->name('amenities.store');
-    //     Route::get('/edit/amenities/{id}',  'Edit')->name('edit.amenities');
-    //     Route::post('/amenities/update/{id}',  'Update')->name('amenities.update');
-    //     Route::get('/amenities/delete/{id}',  'Destroy')->name('delete.amenities');
-    // });
+
+     // Property Country All Routes
+    Route::resource('countries',CountryController::class);
+    Route::get('/countries/status/{country}', [CountryController::class, 'StatusUpdate'])->name('countries.status');
+     // Property State All Routes
+    Route::resource('states',StateController::class);
+    Route::get('/states/status/{state}', [StateController::class, 'StatusUpdate'])->name('states.status');
+//    
+     // Property Cities Type All Routes
+    Route::resource('cities',CityController::class);    
+    Route::get('/city/status/{state}', [CityController::class, 'StatusUpdate'])->name('cities.status');
+//      
+
     
 });
 // End Group Admin Middleware

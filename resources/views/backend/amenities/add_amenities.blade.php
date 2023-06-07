@@ -17,27 +17,20 @@
                 <div class="card">
                     <div class="card-body">
                         <h6 class="card-title">Add Amenities</h6>
+                        {{ Form::open(['route' => 'amenities.store', 'class' => 'forms-sample', 'method' => 'post']) }}
 
-                        <form method="POST" class="forms-sample" action="{{ route('amenities.store') }}" autocomplete="off"
-                            enctype="multipart/form-data">
-                            @csrf
+                        <div class="mb-3">
 
-                            <div class="mb-3">
-                                <x-input-label for="amenities_name" :value="__('Amenities Name')" />
-                                <input id="amenities_name" type="text" name="amenities_name"
-                                    class="form-control 
-                                    @error('amenities_name') is-invalid @enderror "
-                                    autofocus autocomplete="off" />
-                                @error('amenities_name')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+                            {!! Form::label('amenities_name', 'Amenities Name', ['class' => 'form-label']) !!}
 
-                            <x-primary-button class="btn btn-outline-primary btn-icon-text mb-2 mb-md-0">
-                                {{ __('Submit') }}
-                            </x-primary-button>
+                            {!! Form::text('amenities_name', $value = null, ['class' => 'form-control', 'placeholder' => 'Name']) !!}
+                            @error('amenities_name')
+                                <span class="text-danger pt-3">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        {!! Form::submit('Submit', ['class' => 'btn btn-outline-primary btn-icon-text mb-2 mb-md-0']) !!}
+                        {{ Form::close() }}
 
-                        </form>
                     </div>
                 </div>
             </div>

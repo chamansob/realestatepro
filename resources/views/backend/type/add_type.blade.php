@@ -17,34 +17,30 @@
                 <div class="card">
                     <div class="card-body">
                         <h6 class="card-title">Add Property Type</h6>
+                        {{ Form::open(['route' => 'property_types.store', 'class' => 'forms-sample', 'method' => 'post']) }}
 
-                        <form method="POST" class="forms-sample" action="{{ route('property_types.store') }}"
-                            autocomplete="off" enctype="multipart/form-data">
-                            @csrf
+                        <div class="mb-3">
 
-                            <div class="mb-3">
-                                <x-input-label for="type_name" :value="__('Property Type Name')" />
-                                <input id="type_name" type="text" name="type_name"
-                                    class="form-control 
-                                    @error('type_name') is-invalid @enderror "
-                                    autofocus autocomplete="off" />
-                                @error('type_name')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <x-input-label for="type_icon" :value="__('Property Type Icon')" />
-                                <input id="type_icon" class="form-control @error('type_icon') is-invalid @enderror"
-                                    type="text" name="type_icon" autofocus autocomplete="off" />
-                                @error('type_icon')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <x-primary-button class="btn btn-outline-primary btn-icon-text mb-2 mb-md-0">
-                                {{ __('Submit') }}
-                            </x-primary-button>
+                            {!! Form::label('type_name', 'Property Type Name', ['class' => 'form-label']) !!}
 
-                        </form>
+                            {!! Form::text('type_name', $value = null, ['class' => 'form-control', 'placeholder' => 'Property Type Name']) !!}
+                            @error('type_name')
+                                <span class="text-danger pt-3">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            {!! Form::label('type_icon', 'Property Icon', ['class' => 'form-label']) !!}
+                            {!! Form::text('type_icon', $value = null, [
+                                'class' => 'form-control',
+                                'placeholder' => 'Property Icon',
+                            ]) !!}
+                            @error('type_icon')
+                                <span class="text-danger pt-3">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        {!! Form::submit('Submit', ['class' => 'btn btn-outline-primary btn-icon-text mb-2 mb-md-0']) !!}
+                        {{ Form::close() }}
+
                     </div>
                 </div>
             </div>
