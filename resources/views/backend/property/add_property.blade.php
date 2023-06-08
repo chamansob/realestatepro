@@ -261,7 +261,10 @@
                             <div class="col-sm-4">
                                 <div class="mb-3">
                                     {!! Form::label('amenities_id', 'Property Amenities', ['class' => 'form-label']) !!}
-                                    {!! Form::text('amenities_id', $value = implode(',', $amenities), ['class' => 'form-control', 'id' => 'tags']) !!}
+                                    {!! Form::select('amenities_id[]', $value = $amenities, null, [
+                                        'class' => 'form-control js-example-basic-multiple',
+                                        'multiple' => true,
+                                    ]) !!}
 
 
                                 </div>
@@ -435,11 +438,11 @@
         $(function() {
             'use strict';
 
-            $.validator.setDefaults({
-                submitHandler: function() {
-                    alert("submitted!");
-                }
-            });
+            // $.validator.setDefaults({
+            //     submitHandler: function() {
+            //         alert("submitted!");
+            //     }
+            // });
             $(function() {
                 $('#myForm').validate({
                     rules: {

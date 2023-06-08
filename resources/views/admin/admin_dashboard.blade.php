@@ -134,7 +134,7 @@
     <!-- End Datatable custom js for this page -->
     <script src="{{ asset('backend/assets/vendors/tinymce/tinymce.min.js') }}"></script>
     <!-- Custom js for this page -->
-    <script src="{{ asset('backend/assets/js/form-validation.js') }}"></script>
+    {{-- <script src="{{ asset('backend/assets/js/form-validation.js') }}"></script> --}}
     <script src="{{ asset('backend/assets/js/select2.js') }}"></script>
     <script src="{{ asset('backend/assets/js/tags-input.js') }}"></script>
     <script src="{{ asset('backend/assets/js/tinymce.js') }}"></script>

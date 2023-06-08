@@ -16,12 +16,13 @@ return new class extends Migration
             $table->string('ptype_id');
             $table->string('amenities_id');
             $table->string('property_name');
+            $table->string('property_slug');            
             $table->string('property_code');
             $table->enum('property_status',['rent', 'sale'])->default('sale');
             $table->string('lowest_price')->nullable();
             $table->string('max_price')->nullable();
             $table->string('property_thambnail');
-            $table->string('short_descp')->nullable();
+            $table->text('short_descp')->nullable();
             $table->text('long_descp')->nullable();
             $table->string('bedrooms')->nullable();
             $table->string('bathrooms')->nullable();

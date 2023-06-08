@@ -34,7 +34,7 @@
                                             <td>{{ $country->id }}</td>
                                             <td>{{ $country->name }}</td>
                                             <td><a href="{{ route('countries.status', $country->id) }}"><span
-                                                        class="badge rounded-pill bg-{{ !$country->status == 1 ? 'danger' : 'success' }}">{{ !$country->status == 1 ? 'Deactive' : 'Active' }}</a></span>
+                                                        class="badge rounded-pill bg-{{ !$country->status == 1 ? 'danger' : 'success' }}">{{ !$country->status == 1 ? 'Deactive' : 'Active' }}</span></a>
                                             </td>
                                             <td>
                                                 <form action="{{ route('countries.destroy', $country->id) }}"

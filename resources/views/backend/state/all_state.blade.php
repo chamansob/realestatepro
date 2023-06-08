@@ -36,7 +36,7 @@
                                             <td>{{ !empty($state->name) ? $state->name : '-' }}</td>
                                             <td>{{ !empty($state->country->name) ? $state->country->name : '-' }}</td>
                                             <td><a href="{{ route('states.status', $state->id) }}"><span
-                                                        class="badge rounded-pill bg-{{ !$state->status == 1 ? 'danger' : 'success' }}">{{ !$state->status == 1 ? 'Deactive' : 'Active' }}</a></span>
+                                                        class="badge rounded-pill bg-{{ !$state->status == 1 ? 'danger' : 'success' }}">{{ !$state->status == 1 ? 'Deactive' : 'Active' }}</span></a>
                                             </td>
                                             <td>
                                                 <form action="{{ route('states.destroy', $state->id) }}" method="POST">

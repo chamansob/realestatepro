@@ -28,6 +28,7 @@
                                         <th>Type</th>
                                         <th>Status Type</th>
                                         <th>City</th>
+                                        <th>Code</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -36,19 +37,23 @@
                                     @foreach ($properties as $property)
                                         <tr>
                                             <td>{{ $property->id }}</td>
-                                            <td><img src="{{ asset($property->photo) }}"></td>
-                                            <td>{{ $property->property_name }}</td>
-                                            <td>{{ $property->property_type }}</td>
-                                            <td>{{ $property->property_status }}</td>
-                                            <td>{{ $property->city }}</td>
-                                            <td>{{ $property->status }}</td>
+                                            <td><img src="{{ asset('' . $property->property_thambnail) }}"></td>
+                                            <td>{{ ucfirst($property->property_name) }}</td>
+                                            <td>{{ $property->type->type_name }}</td>
+                                            <td>{{ ucfirst($property->property_status) }}</td>
+                                            <td>{{ $property->city($property->city) }}</td>
+                                            <td>{{ $property->property_code }}</td>
                                             <td>
-                                                <form action="{{ route('property_types.destroy', $property->id) }}"
+                                                <a href="#"><span
+                                                        class="badge rounded-pill bg-{{ !$property->status == 1 ? 'danger' : 'success' }}">{{ !$property->status == 1 ? 'Deactive' : 'Active' }}</span></a>
+                                            </td>
+                                            <td>
+                                                <form action="{{ route('properties.destroy', $property->id) }}"
                                                     method="POST">
 
                                                     @csrf
                                                     @method('DELETE')
-                                                    <a href="{{ route('property_types.edit', $property->id) }}"
+                                                    <a href="{{ route('properties.edit', $property->id) }}"
                                                         class="btn btn-inverse-warning">Edit</a>
                                                     <button type="submit"
                                                         class="btn btn-inverse-danger btn-submit">Delete</button>
