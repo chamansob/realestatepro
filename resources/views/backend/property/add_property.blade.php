@@ -82,12 +82,12 @@
 
                                     {!! Form::label('property_thambnail', 'Main Thumbnail', ['class' => 'form-label']) !!}
 
-                                    {!! Form::file('property_thambnail', [
+                                    {!! Form::file('property_thumbnail', [
                                         'class' => 'form-control',
                                         'placeholder' => 'Main Thumbnail',
                                         'onchange' => 'mainThamUrl(this)',
                                     ]) !!}
-                                    @error('property_thambnail')
+                                    @error('property_thumbnail')
                                         <span class="text-danger pt-3">{{ $message }}</span>
                                     @enderror
                                     <img src="" id="mainThmb">
@@ -103,10 +103,8 @@
                                         'id' => 'multiImg',
                                         'multiple' => true,
                                         'placeholder' => 'Multiple Image',
-                                    ]) !!} @error('max_price')
-                                        <span class="text-danger pt-3">{{ $message }}</span>
-                                    @enderror
-                                    <div class="row" id="preview_img"> </div>
+                                    ]) !!}
+                                    <div class="row mt-3 gap-2" id="preview_img"> </div>
                                 </div>
                             </div>
                         </div>
@@ -325,6 +323,8 @@
 
                             </div>
                         </div>
+
+                        <!-- Facilities Option Started -->
                         <div class="row add_item">
                             <div class="col-md-4">
                                 <div class="mb-3">
@@ -357,7 +357,7 @@
                                 <a class="btn btn-success addeventmore"><i class="fa fa-plus-circle"></i> Add More..</a>
                             </div>
                         </div>
-                        <!---end row-->
+                        <!---End Facilities Option Started-->
 
 
 
@@ -547,7 +547,9 @@
                             var fRead = new FileReader(); //new filereader
                             fRead.onload = (function(file) { //trigger function on successful read
                                 return function(e) {
-                                    var img = $('<img/>').addClass('thumb').attr('src',
+                                    var img = $('<img/>').addClass(
+                                            'thumb img-responsive border border-1')
+                                        .attr('src',
                                             e.target.result).width(100)
                                         .height(80); //create image element 
                                     $('#preview_img').append(
