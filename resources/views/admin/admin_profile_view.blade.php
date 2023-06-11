@@ -13,7 +13,7 @@
 
                             <div>
                                 <img class="wd-100 rounded-circle"
-                                    src="{{ !empty($profileData->photo) ? asset('storage/admin_images/' . $profileData->photo) : url('upload/no_image.jpg') }}"
+                                    src="{{ !empty($profileData->photo) ? asset($profileData->photo) : url('upload/no_image.jpg') }}"
                                     alt="profile">
                                 <span class="h4 ms-3 ">{{ $profileData->name != '' ? $profileData->name : '--' }}</span>
                             </div>
@@ -68,7 +68,7 @@
                                     @csrf
                                     <div class="mb-3">
                                         <img class="wd-70 rounded-circle" id="showImage"
-                                            src="{{ !empty($profileData->photo) ? asset('storage/admin_images/' . $profileData->photo) : url('upload/no_image.jpg') }}"
+                                            src="{{ !empty($profileData->photo) ? asset($profileData->photo) : url('upload/no_image.jpg') }}"
                                             alt="profile">
                                     </div>
                                     <div class="mb-3">

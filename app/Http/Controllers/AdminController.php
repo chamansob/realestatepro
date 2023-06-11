@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class AdminController extends Controller
 {
@@ -47,34 +47,31 @@ class AdminController extends Controller
         $data->email= $request->email;
         $data->phone= $request->phone;
         $data->address= $request->address;
-        $image_path ='admin_images/'.$data->photo;
-        if($image = $request->file('photo'))
-        {            
-         $image=$request->file('photo');        
-         $ext=$image->extension();
-         $file=time().'.'.$ext;          
-         
-        
-         if( Storage::disk('public')->exists($image_path)){
-             Storage::disk('public')->delete($image_path);
-             $inputs['photo']=$image->storeAs('public/admin_images',$file);
-         }else
-         {
-             $notification =array(
-            'message' =>  'Image Not Updated Successfully',
-            'alert-type' => 'error'
-         );  
-          return redirect()->back()->with($notification);
+       
+         if($image = $request->file('photo'))
+        {    
+         $code =hexdec(uniqid());
+        $image = $request->file('photo');     
+        $name_gen = $code.'.'.$image->getClientOriginalExtension();        
+        Image::make($image)->resize(150,150)->save('upload/admin_images/'.$name_gen);
+        $name_gen2 = $code.'_small.'.$image->getClientOriginalExtension();
+        Image::make($image)->resize(30,30)->save('upload/admin_images/'.$name_gen2);
+        $save_url = 'upload/admin_images/'.$name_gen;  
+        $img=explode('.',Auth::user()->photo);       
+        $small_img =$img[0]."_small.".$img[1]; 
+            
+        if(file_exists(Auth::user()->photo))
+        {
+            unlink(Auth::user()->photo);           
+        }  
+       if(file_exists($small_img))
+        {
+            unlink($small_img);           
+        }    
+          
+         $data->photo= $save_url;  
          }
-         $data->photo=$file;  
-         }
-//         if ($request->hasFile('photo')) {
-//            $file = $request->file('photo');
-//             $filename = date('YmdHi').$file->getClientOriginalName(); 
-//             $file->move(public_path('upload/admin_images'),$filename);
-//             $data['photo'] = $filename;  
-// }
-         $pp=$data->save();      
+         $data->save();       
          $notification =array(
             'message' =>  'Admin Profile Updated Successfully',
             'alert-type' => 'success'

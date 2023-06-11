@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('property_status',['rent', 'sale'])->default('sale');
             $table->string('lowest_price')->nullable();
             $table->string('max_price')->nullable();
-            $table->string('property_thambnail');
+            $table->string('property_thumbnail');
             $table->text('short_descp')->nullable();
             $table->text('long_descp')->nullable();
             $table->string('bedrooms')->nullable();

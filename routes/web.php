@@ -57,7 +57,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     // Property  All Routes
     Route::resource('properties',PropertyController::class);
     Route::post('/properties/states', [PropertyController::class, 'states'])->name('properties.states');
-   
+    Route::patch('/properties/update_img/{property}', [PropertyController::class, 'update_img'])->name('properties.update_img');
+    Route::get('/properties/multi_img_delete/{id}', [PropertyController::class, 'multiImageDestory'])->name('properties.multi_img_delete');
+    Route::patch('/properties/multi_img_update/{property}', [PropertyController::class, 'multiImageUpdate'])->name('properties.multi_img_update');
+    Route::patch('/properties/multi_img_update_one/{id}', [PropertyController::class, 'multiImageUpdateOne'])->name('properties.multi_img_update_one');
+    
     // Property Amenities Type All Routes
     Route::resource('amenities',AmenitiesController::class);
 

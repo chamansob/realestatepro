@@ -51,11 +51,15 @@ class PropertyController extends Controller
 
         $pcode = IdGenerator::generate(['table' => 'properties','field' => 'property_code','length' => 5, 'prefix' => 'PC' ]);
 
-
-        $image = $request->file('property_thambnail');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(370,250)->save('upload/property/thambnail/'.$name_gen);
-        $save_url = 'upload/property/thambnail/'.$name_gen;
+        $code =hexdec(uniqid());
+        $image = $request->file('property_thumbnail');       
+        $name_gen = $code.'.'.$image->getClientOriginalExtension();        
+        Image::make($image)->resize(370,250)->save('upload/property/thumbnail/'.$name_gen);
+        $name_gen2 = $code.'_small.'.$image->getClientOriginalExtension();
+        Image::make($image)->resize(138,93)->save('upload/property/thumbnail/'.$name_gen2);
+        $name_gen3 = $code.'_table.'.$image->getClientOriginalExtension();
+        Image::make($image)->resize(36,36)->save('upload/property/thumbnail/'.$name_gen3);
+        $save_url = 'upload/property/thumbnail/'.$name_gen;
 
         $property_id = Property::insertGetId([
 
@@ -89,14 +93,19 @@ class PropertyController extends Controller
             'hot' => (isset($request->hot) ? $request->hot : 0 ),
             'agent_id' => $request->agent_id,
             'status' => 1,
-            'property_thambnail' => $save_url           
+            'property_thumbnail' => $save_url           
              ]);
             $images = $request->file('multi_img');
             foreach($images as $image)
             {
-            $make_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            $ucode =hexdec(uniqid());
+            $make_gen = $ucode.'.'.$image->getClientOriginalExtension();
             Image::make($image)->resize(770,520)->save('upload/property/multi-image/'.$make_gen);
+            $make_gen2 = $ucode.'_small.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(36,36)->save('upload/property/multi-image/'.$make_gen2);
             $upload_img  = 'upload/property/multi-image/'.$make_gen;
+
+            
             $multi= MultiImage::insert([
                 'property_id' => $property_id,
                 'photo_name' => $upload_img                
@@ -136,12 +145,14 @@ class PropertyController extends Controller
      */
     public function edit(Property $property)
     {
-       $type = PropertyType::pluck('type_name', 'id')->toArray();
+        $type = PropertyType::pluck('type_name', 'id')->toArray();
         $state = State::pluck('name', 'id')->toArray();
         $agent = User::where('role', 'agent')->pluck('name', 'id')->toArray();
         $amenities = Amenities::pluck('amenities_name')->toArray();
         $cities =City::pluck('name', 'id')->toArray();
-        return view('backend.property.edit_property', compact('property','cities','type', 'state', 'agent','amenities'));
+        $multiImage=MultiImage::where('property_id', $property->id)->get();
+        $facilities =Facility::where('property_id', $property->id)->get();        
+        return view('backend.property.edit_property', compact('property','cities','type', 'state', 'agent','amenities','multiImage','facilities'));
    
     }
 
@@ -191,20 +202,160 @@ class PropertyController extends Controller
         );
         return redirect()->back()->with($notification);
     }
+    public function update_img(Request $request, Property $property)
+    {
+        $img=explode('.',$property->property_thumbnail);       
+        $small_img =$img[0]."_small.".$img[1];  
+        $table_img =$img[0]."_table.".$img[1];  
+        if(file_exists($property->property_thumbnail))
+        {
+            unlink($property->property_thumbnail);           
+        }  
+       if(file_exists($small_img))
+        {
+            unlink($small_img);           
+        }    
+          if(file_exists($table_img))
+        {
+            unlink($table_img);           
+        }
+        $code =hexdec(uniqid());
+        $image = $request->file('property_thumbnail');     
+        $name_gen = $code.'.'.$image->getClientOriginalExtension();        
+        Image::make($image)->resize(370,250)->save('upload/property/thumbnail/'.$name_gen);
+        $name_gen2 = $code.'_small.'.$image->getClientOriginalExtension();
+        Image::make($image)->resize(138,93)->save('upload/property/thumbnail/'.$name_gen2);
+        $name_gen3 = $code.'_table.'.$image->getClientOriginalExtension();
+        Image::make($image)->resize(36,36)->save('upload/property/thumbnail/'.$name_gen3);
+        $save_url = 'upload/property/thumbnail/'.$name_gen;
 
+         $property->update([
+             'property_thumbnail' => $save_url    
+         ]);
+          $notification = array(
+            'message' => 'Property Image Thumbnail Updated Successfully',
+            'alert-type' => 'success',
+        );
+        return redirect()->back()->with($notification);
+    }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Property $property)
     {
+        $img=explode('.',$property->property_thumbnail);       
+        $small_img =$img[0]."_small.".$img[1];              
+        if(file_exists($property->property_thumbnail))
+        {
+            unlink($property->property_thumbnail);           
+        }  
+        if(file_exists($small_img))
+        {
+            unlink($small_img);           
+        }
+        $multi=MultiImage::where('property_id',$property->id)->get();
+        foreach($multi as $mu)
+        {
+            if(file_exists($mu->photo_name))
+        {
+            unlink($mu->photo_name);           
+        } 
+            $mu->delete();
+        }
         $property->delete();
         $notification = array(
-            'message' => 'City Deleted successfully',
+            'message' => 'Property Deleted successfully',
             'alert-type' => 'success',
         );
         return redirect()->back()->with($notification);
     }
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function multiImageDestory($id)
+    {
+        $multi =MultiImage::findOrFail($id);
+        if(file_exists($multi->photo_name))
+        {
+            unlink($multi->photo_name);
+        }
+        $img=explode('.',$multi->photo_name);  
+        $small_img =$img[0]."_small.".$img[1];  
+        if(file_exists($small_img))
+        {
+            unlink($small_img);           
+        }
+        $multi->delete();
+        $notification = array(
+            'message' => 'Image Deleted successfully',
+            'alert-type' => 'success',
+        );
+        return redirect()->back()->with($notification);
+    }
+    /**
+     * Upload More Multiple Images.
+     */
+    public function multiImageUpdate(Request $request, Property $property)
+    {
+        
+        $images = $request->file('multi_img');
+           foreach($images as $image)
+            {
+            $ucode =hexdec(uniqid());
+            $make_gen = $ucode.'.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(770,520)->save('upload/property/multi-image/'.$make_gen);
+            $make_gen2 = $ucode.'_small.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(36,36)->save('upload/property/multi-image/'.$make_gen2);
+            $upload_img  = 'upload/property/multi-image/'.$make_gen;
 
+            
+            $multi= MultiImage::insert([
+                'property_id' => $property->id,
+                'photo_name' => $upload_img                
+            ]);
+            }// End Foreach 
+           $notification = array(
+            'message' => 'Multiple Images Updated successfully',
+            'alert-type' => 'success',
+        );
+        return redirect()->back()->with($notification);  
+    }
+    /**
+     * Update Single Multiple Image.
+     */
+       public function multiImageUpdateOne(Request $request, $id)
+       {    
+        
+        $multis= MultiImage::where('id',$id)->first(); 
+               
+         if(file_exists($multis->photo_name))
+        {
+            unlink($multis->photo_name);
+        }
+        $img=explode('.',$multis->photo_name);  
+        $small_img =$img[0]."_small.".$img[1];  
+        if(file_exists($small_img))
+        {
+            unlink($small_img);           
+        }
+            $image = $request->file('multi_img');           
+            $ucode =hexdec(uniqid());
+            $make_gen = $ucode.'.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(770,520)->save('upload/property/multi-image/'.$make_gen);
+            $make_gen2 = $ucode.'_small.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(36,36)->save('upload/property/multi-image/'.$make_gen2);
+            $upload_img  = 'upload/property/multi-image/'.$make_gen;
+            $multi= MultiImage::where('id',$id);
+            $multi->update([                
+                'photo_name' => $upload_img                
+            ]);
+            
+           $notification = array(
+            'message' => 'Multiple Single Images Updated successfully',
+            'alert-type' => 'success',
+        );
+        return redirect()->back()->with($notification);  
+    }
     /**
      * Show all the states.
      */

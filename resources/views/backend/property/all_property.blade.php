@@ -35,9 +35,12 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($properties as $property)
+                                        <?php
+                                        $img = explode('.', $property->property_thumbnail);
+                                        $table_img = $img[0] . '_small.' . $img[1]; ?>
                                         <tr>
                                             <td>{{ $property->id }}</td>
-                                            <td><img src="{{ asset('' . $property->property_thambnail) }}"></td>
+                                            <td><img src="{{ asset($table_img) }}"></td>
                                             <td>{{ ucfirst($property->property_name) }}</td>
                                             <td>{{ $property->type->type_name }}</td>
                                             <td>{{ ucfirst($property->property_status) }}</td>
