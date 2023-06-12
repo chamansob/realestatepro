@@ -216,7 +216,7 @@
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="wd-30 ht-30 rounded-circle" <?php
                     $img = explode('.', Auth::user()->photo);
-                    $small_img = $img[0] . '_small.' . $img[1];
+                    $small_img = $img[0] . '_avatar.' . $img[1];
                     ?>
                         src="{{ !empty($small_img) ? asset($small_img) : url('upload/no_image.jpg') }}"
                         alt="profile">

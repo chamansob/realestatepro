@@ -49,7 +49,6 @@ class CountryController extends Controller
      */
     public function show(Country $country)
     {
-
     }
 
     /**
@@ -59,18 +58,7 @@ class CountryController extends Controller
     {
         return view('backend.country.edit_country', compact('country'));
     }
-    public function StatusUpdate(Country $country)
-    {
 
-        $country->update([
-            'status' => ($country->status == 1) ? 0 : 1,
-        ]);
-        $notification = array(
-            'message' => 'Country  Status Updated Successfully',
-            'alert-type' => 'success',
-        );
-        return redirect()->route('countries.index')->with($notification);
-    }
     /**
      * Update the specified resource in storage.
      */
@@ -102,5 +90,16 @@ class CountryController extends Controller
         );
         return redirect()->back()->with($notification);
     }
+    public function StatusUpdate(Request $request, Country $country)
+    {
 
+        $country->update([
+            'status' => ($country->status == 1) ? 0 : 1,
+        ]);
+        $notification = array(
+            'message' => 'Country  Status Updated Successfully',
+            'alert-type' => 'success',
+        );
+        return redirect()->route('countries.index')->with($notification);
+    }
 }

@@ -56,10 +56,14 @@
 
                                                     @csrf
                                                     @method('DELETE')
+                                                    <a href="{{ route('properties.show', $property->id) }}"
+                                                        class="btn btn-inverse-info" title="Details"> <i
+                                                            data-feather="eye"></i> </a>
                                                     <a href="{{ route('properties.edit', $property->id) }}"
-                                                        class="btn btn-inverse-warning">Edit</a>
-                                                    <button type="submit"
-                                                        class="btn btn-inverse-danger btn-submit">Delete</button>
+                                                        class="btn btn-inverse-warning"><i data-feather="edit"></i> </a>
+
+                                                    <button type="submit" class="btn btn-inverse-danger btn-submit"><i
+                                                            data-feather="trash-2"></i> </button>
                                                 </form>
                                             </td>
 

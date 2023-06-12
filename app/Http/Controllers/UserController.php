@@ -2,17 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ImagePreset;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Traits\ImageGenTrait;
+
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
-   //
-
+   public $path = "upload/user_images/";
+   public $image_preset;
+   public $image_preset_main;
+   use ImageGenTrait;
+    public function __construct(){
+    $this->image_preset = ImagePreset::whereIn('id', [2])->get();
+    $this->image_preset_main = ImagePreset::find(3);
+  }
    public function Index()
    {
       return view('frontend.index');
@@ -31,27 +40,13 @@ class UserController extends Controller
       $data->name = $request->name;
       $data->email = $request->email;
       $data->phone = $request->phone;
-      $data->address = $request->address;
+      $data->address = $request->address;     
+      
+
       if ($image = $request->file('photo')) {
-         $code = hexdec(uniqid());
-         $image = $request->file('photo');
-         $name_gen = $code . '.' . $image->getClientOriginalExtension();
-         Image::make($image)->resize(370, 250)->save('upload/user_image/' . $name_gen);
-         $name_gen3 = $code . '_table.' . $image->getClientOriginalExtension();
-         Image::make($image)->resize(36, 36)->save('upload/user_image/' . $name_gen3);
-         $save_url = 'upload/user_image/' . $name_gen;
-         $img = explode('.', Auth::user()->photo);
-         $small_img = $img[0] . "_small." . $img[1];
-         $table_img = $img[0] . "_table." . $img[1];
-         if (file_exists(Auth::user()->photo)) {
-            unlink(Auth::user()->photo);
-         }
-         if (file_exists($small_img)) {
-            unlink($small_img);
-         }
-         if (file_exists($table_img)) {
-            unlink($table_img);
-         }
+
+         $save_url = $this->imageGenrator($image, $this->image_preset_main, $this->image_preset, $this->path);
+         $this->imageRemove(Auth::user()->photo, $this->image_preset);
          $data->photo = $save_url;
       }
       $data->save();

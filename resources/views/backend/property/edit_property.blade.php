@@ -334,88 +334,9 @@
 
                             </div>
                         </div>
-                        <div class="row add_item">
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    {!! Form::label('facility_name', 'Facilities', ['class' => 'form-label']) !!}
 
-                                    <select name="facility_name[]" id="facility_name" class="form-control">
-                                        <option value="">Select Facility</option>
-                                        <option value="Hospital">Hospital</option>
-                                        <option value="SuperMarket">Super Market</option>
-                                        <option value="School">School</option>
-                                        <option value="Entertainment">Entertainment</option>
-                                        <option value="Pharmacy">Pharmacy</option>
-                                        <option value="Airport">Airport</option>
-                                        <option value="Railways">Railways</option>
-                                        <option value="Bus Stop">Bus Stop</option>
-                                        <option value="Beach">Beach</option>
-                                        <option value="Mall">Mall</option>
-                                        <option value="Bank">Bank</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="distance" class="form-label"> Distance </label>
-                                    <input type="text" name="distance[]" id="distance" class="form-control"
-                                        placeholder="Distance (Km)">
-                                </div>
-                            </div>
-                            <div class="form-group col-md-4" style="padding-top: 30px;">
-                                <a class="btn btn-success addeventmore"><i class="fa fa-plus-circle"></i> Add More..</a>
-                            </div>
-                        </div>
                         <!---end row-->
 
-
-
-
-
-                        <!--========== Start of add multiple class with ajax ==============-->
-                        <div style="visibility: hidden">
-                            <div class="whole_extra_item_add" id="whole_extra_item_add">
-                                <div class="whole_extra_item_delete" id="whole_extra_item_delete">
-                                    <div class="container mt-2">
-                                        <div class="row">
-
-                                            <div class="form-group col-md-4">
-                                                <label for="facility_name">Facilities</label>
-                                                <select name="facility_name[]" id="facility_name" class="form-control">
-                                                    <option value="">Select Facility</option>
-                                                    <option value="Hospital">Hospital</option>
-                                                    <option value="SuperMarket">Super Market</option>
-                                                    <option value="School">School</option>
-                                                    <option value="Entertainment">Entertainment</option>
-                                                    <option value="Pharmacy">Pharmacy</option>
-                                                    <option value="Airport">Airport</option>
-                                                    <option value="Railways">Railways</option>
-                                                    <option value="Bus Stop">Bus Stop</option>
-                                                    <option value="Beach">Beach</option>
-                                                    <option value="Mall">Mall</option>
-                                                    <option value="Bank">Bank</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="distance">Distance</label>
-                                                <input type="text" name="distance[]" id="distance"
-                                                    class="form-control" placeholder="Distance (Km)">
-                                            </div>
-                                            <div class="form-group col-md-4" style="padding-top: 20px">
-                                                <span class="btn btn-success btn-sm addeventmore"><i
-                                                        class="fa fa-plus-circle">Add</i></span>
-                                                <span class="btn btn-danger btn-sm removeeventmore"><i
-                                                        class="fa fa-minus-circle">Remove</i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <!----For Section-------->
 
                         <!--========== End of add multiple class with ajax ==============-->
                         {!! Form::submit('Submit', ['class' => 'btn btn-outline-primary btn-icon-text mb-2 mb-md-0']) !!}
@@ -463,7 +384,7 @@
                             </div>
                             <?php
                             $img = explode('.', $property->property_thumbnail);
-                            $small_img = $img[0] . '_small.' . $img[1];
+                            $small_img = $img[0] . '_thumb.' . $img[1];
                             ?>
                             <div class="mt-3 col-sm-2"><img src="{{ asset($small_img) }}"
                                     class="img-thumbnail img-fluid img-responsive w-10"></div>
@@ -528,42 +449,51 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $key = 1; ?>
-                                    @foreach ($multiImage as $multi)
-                                        <?php
-                                        $img = explode('.', $multi->photo_name);
-                                        $small_img = $img[0] . '_small.' . $img[1];
-                                        ?>
-                                        {!! Form::open([
-                                            'method' => 'patch',
-                                            'route' => ['properties.multi_img_update_one', $multi->id],
-                                            'class' => 'forms-sample',
-                                            'files' => true,
-                                        ]) !!}
+                                    <?php $key = 1;
+                                    
+                                    ?>
+                                    @if (count($multiImage) > 0)
+                                        @foreach ($multiImage as $multi)
+                                            <?php
+                                            $img = explode('.', $multi->photo_name);
+                                            $small_img = $img[0] . '_small.' . $img[1];
+                                            ?>
+                                            {!! Form::open([
+                                                'method' => 'patch',
+                                                'route' => ['properties.multi_img_update_one', $multi->id],
+                                                'class' => 'forms-sample',
+                                                'files' => true,
+                                            ]) !!}
+                                            <tr>
+                                                <td class="p-4">{{ $key++ }}</td>
+                                                <td class="p-3">
+                                                    <img src="{{ asset($small_img) }}" alt="image">
+                                                </td>
+                                                <td>
+
+                                                    {!! Form::file('multi_img', [
+                                                        'class' => 'form-control',
+                                                        'required' => true,
+                                                    ]) !!}
+                                                </td>
+
+                                                <td>{!! Form::submit('Update Image', ['class' => 'btn btn-outline-primary btn-icon-text mb-2 mb-md-0']) !!}
+
+
+                                                    <a href="{{ route('properties.multi_img_delete', $multi->id) }}"
+                                                        class="btn btn-outline-danger btn-icon-text mb-2 mb-md-0"
+                                                        id="delete">Delete </a>
+                                                </td>
+
+                                            </tr>
+
+                                            {{ Form::close() }}
+                                        @endforeach
+                                    @else
                                         <tr>
-                                            <td class="p-4">{{ $key++ }}</td>
-                                            <td class="p-3">
-                                                <img src="{{ asset($small_img) }}" alt="image">
-                                            </td>
-                                            <td>
-
-                                                {!! Form::file('multi_img', [
-                                                    'class' => 'form-control',
-                                                    'required' => true,
-                                                ]) !!}
-                                            </td>
-
-                                            <td>{!! Form::submit('Update Image', ['class' => 'btn btn-outline-primary btn-icon-text mb-2 mb-md-0']) !!}
-
-
-                                                <a href="{{ route('properties.multi_img_delete', $multi->id) }}"
-                                                    class="btn btn-outline-danger btn-icon-text mb-2 mb-md-0"
-                                                    id="delete">Delete </a>
-                                            </td>
-
+                                            <td colspan="4" class="text-center text-danger">No Data Found</td>
                                         </tr>
-                                        {{ Form::close() }}
-                                    @endforeach
+                                    @endif
 
                                 </tbody>
                             </table>
@@ -587,49 +517,57 @@
                         <h6 class="card-title">Edit Property Facility</h6>
                         {!! Form::open([
                             'method' => 'patch',
-                            'route' => ['properties.multi_img_update', $property->id],
+                            'route' => ['properties.facility_update', $property->id],
                             'class' => 'forms-sample',
                         ]) !!}
                         <?php
                         $facility_list = ['Hospital', 'SuperMarket', 'School', 'Entertainment', 'Pharmacy', 'Airport', 'Railways', 'Bus Stop', 'Beach', 'Mall', 'Bank'];
                         ?>
                         @foreach ($facilities as $item)
-                            <div class="whole_extra_item_delete" id="whole_extra_item_delete">
-                                <div class="container mt-2">
-                                    <div class="row">
+                            <div class="row add_item">
+                                <div class="whole_extra_item_add" id="whole_extra_item_add">
+                                    <div class="whole_extra_item_delete" id="whole_extra_item_delete">
+                                        <div class="container mt-2">
+                                            <div class="row">
 
-                                        <div class="form-group col-md-4">
+                                                <div class="form-group col-md-4">
 
-                                            {!! Form::label('facility_name', 'Facilities', ['class' => 'form-label']) !!}
+                                                    {!! Form::label('facility_name', 'Facilities', ['class' => 'form-label']) !!}
 
-                                            {!! Form::Select('facility_name[]', $facility_list, array_search($item->facility_name, $facility_list), [
-                                                'class' => 'form-control',
-                                                'id' => 'facility_name',
-                                                'placeholder' => 'Select Facility',
-                                            ]) !!}
+                                                    {!! Form::hidden('facility_ids[]', $value = $item->id) !!}
+                                                    {!! Form::Select('facility_name[]', $facility_list, array_search($item->facility_name, $facility_list), [
+                                                        'class' => 'form-control',
+                                                        'id' => 'facility_name',
+                                                        'placeholder' => 'Select Facility',
+                                                    ]) !!}
 
-                                        </div>
-                                        <div class="form-group col-md-4">
+                                                </div>
+                                                <div class="form-group col-md-4">
 
-                                            {!! Form::label('distance', 'Distance', ['class' => 'form-label']) !!}
-                                            {!! Form::text('distance[]', $value = $item->distance, [
-                                                'class' => 'form-control',
-                                                'id' => 'distance',
-                                                'placeholder' => 'Sistance',
-                                            ]) !!}
+                                                    {!! Form::label('distance', 'Distance', ['class' => 'form-label']) !!}
+                                                    {!! Form::text('distance[]', $value = $item->distance, [
+                                                        'class' => 'form-control',
+                                                        'id' => 'distance',
+                                                        'placeholder' => 'Distance',
+                                                    ]) !!}
 
-                                        </div>
-                                        <div class="form-group col-md-4" style="padding-top: 20px">
-                                            <span class="btn btn-success btn-sm addeventmore"><i
-                                                    class="fa fa-plus-circle">Add</i></span>
-                                            <span class="btn btn-danger btn-sm removeeventmore"><i
-                                                    class="fa fa-minus-circle">Remove</i></span>
+                                                </div>
+                                                <div class="form-group col-md-4" style="padding-top: 20px">
+                                                    <span class="btn btn-success btn-sm addeventmore"><i
+                                                            class="fa fa-plus-circle">Add</i></span>
+                                                    <a href="{{ route('properties.facility_delete', $item->id) }}"
+                                                        class="btn btn-danger btn-sm " id="delete">
+                                                        <i class="fa fa-minus-circle">Remove</i></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
 
+                        <div class="mt-3 ms-2"> <button type="submit" class="btn btn-primary">Save Changes </button>
+                        </div>
                         {{ Form::close() }}
 
                     </div>
@@ -638,19 +576,18 @@
         </div>
 
     </div>
+
     <!--  // End Property Main Thumbnail Image Update  //-->
     <script type="text/javascript">
         $(document).ready(function() {
             var counter = 0;
             $(document).on("click", ".addeventmore", function() {
                 var whole_extra_item_add = $("#whole_extra_item_add").html();
+                console.log(whole_extra_item_add);
                 $(this).closest(".add_item").append(whole_extra_item_add);
                 counter++;
             });
-            $(document).on("click", ".removeeventmore", function(event) {
-                $(this).closest("#whole_extra_item_delete").remove();
-                counter -= 1
-            });
+
         });
     </script>
     <!--========== End of add multiple class with ajax ==============-->

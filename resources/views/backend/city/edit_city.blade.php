@@ -1,5 +1,7 @@
 @extends('admin.admin_dashboard')
 @section('admin')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
     <div class="page-content">
 
         <nav class="page-breadcrumb">
@@ -25,14 +27,24 @@
 
                         <div class="mb-3">
                             {!! Form::label('state_id', 'Country Name', ['class' => 'form-label']) !!}
-
-                            {!! Form::Select('state_id', $states, $city->state_id, [
+                            {!! Form::Select('country_id', $countries, null, [
                                 'class' => 'form-control',
-                                'placeholder' => 'Select State',
+                                'id' => 'countryinfo',
+                                'placeholder' => 'Select Country',
                             ]) !!}
                             @error('country_id')
                                 <span class="text-danger pt-3">{{ $message }}</span>
                             @enderror
+                        </div>
+                        <div class="mb-3">
+                            {!! Form::label('state_id', 'State Name', ['class' => 'form-label']) !!}
+
+                            {!! Form::Select('state_id', $states, null, [
+                                'class' => 'form-control',
+                                'id' => 'statesinfo',
+                                'placeholder' => 'Select State',
+                            ]) !!}
+
                         </div>
                         <div class="mb-3">
 
@@ -70,4 +82,26 @@
         </div>
 
     </div>
+    <script>
+        $(document).ready(function() {
+            $('#countryinfo').on('change', function() {
+                var country_id = this.value;
+                var crf = '{{ csrf_token() }}';
+                $.ajax({
+                    url: "{{ route('cities.states') }}",
+                    type: "POST",
+                    data: {
+                        _token: crf,
+                        country_id: country_id
+                    },
+                    cache: false,
+                    success: function(result) {
+                        $("#statesinfo").html(result);
+                    }
+                });
+            });
+
+
+        });
+    </script>
 @endsection

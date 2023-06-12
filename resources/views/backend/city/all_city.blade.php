@@ -37,15 +37,38 @@
                                             <td>{{ $city->country() }}</td>
                                             <td>{{ !empty($city->state->name) ? $city->state->name : '-' }}</td>
                                             <td>{{ !empty($city->name) ? $city->name : '-' }}</td>
-                                            <td><a href="{{ route('states.status', $city->id) }}"><span
-                                                        class="badge rounded-pill bg-{{ !$city->status == 1 ? 'danger' : 'success' }}">{{ !$city->status == 1 ? 'Deactive' : 'Active' }}</span></a>
-                                            </td>
+
                                             <td>
-                                                <form action="{{ route('states.destroy', $city->id) }}" method="POST">
+                                                @if ($city->status == 0)
+                                                    {!! Form::open([
+                                                        'method' => 'patch',
+                                                        'route' => ['cities.status', $city->id],
+                                                        'class' => 'forms-sample',
+                                                    ]) !!}
+                                                    <button type="submit" class="btn badge rounded-pill bg-danger">InActive
+                                                    </button>
+
+                                                    {{ Form::close() }}
+                                                @else
+                                                    {!! Form::open([
+                                                        'method' => 'patch',
+                                                        'route' => ['cities.status', $city->id],
+                                                        'class' => 'forms-sample',
+                                                    ]) !!}
+
+                                                    <button type="submit" class="btn badge rounded-pill bg-success">Active
+                                                    </button>
+
+                                                    {{ Form::close() }}
+                                                @endif
+                                            </td>
+
+                                            <td>
+                                                <form action="{{ route('cities.destroy', $city->id) }}" method="POST">
 
                                                     @csrf
                                                     @method('DELETE')
-                                                    <a href="{{ route('states.edit', $city->id) }}"
+                                                    <a href="{{ route('cities.edit', $city->id) }}"
                                                         class="btn btn-inverse-warning">Edit</a>
                                                     <button type="submit"
                                                         class="btn btn-inverse-danger btn-submit">Delete</button>

@@ -33,8 +33,29 @@
                                         <tr>
                                             <td>{{ $country->id }}</td>
                                             <td>{{ $country->name }}</td>
-                                            <td><a href="{{ route('countries.status', $country->id) }}"><span
-                                                        class="badge rounded-pill bg-{{ !$country->status == 1 ? 'danger' : 'success' }}">{{ !$country->status == 1 ? 'Deactive' : 'Active' }}</span></a>
+                                            <td>
+                                                @if ($country->status == 1)
+                                                    {!! Form::open([
+                                                        'method' => 'patch',
+                                                        'route' => ['countries.status', $country->id],
+                                                        'class' => 'forms-sample',
+                                                    ]) !!}
+                                                    <button type="submit" class="btn badge rounded-pill bg-danger">InActive
+                                                    </button>
+
+                                                    {{ Form::close() }}
+                                                @else
+                                                    {!! Form::open([
+                                                        'method' => 'patch',
+                                                        'route' => ['countries.status', $country->id],
+                                                        'class' => 'forms-sample',
+                                                    ]) !!}
+
+                                                    <button type="submit" class="btn badge rounded-pill bg-success">Active
+                                                    </button>
+
+                                                    {{ Form::close() }}
+                                                @endif
                                             </td>
                                             <td>
                                                 <form action="{{ route('countries.destroy', $country->id) }}"

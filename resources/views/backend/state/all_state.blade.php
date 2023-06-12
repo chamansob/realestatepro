@@ -35,8 +35,32 @@
                                             <td>{{ $state->id }}</td>
                                             <td>{{ !empty($state->name) ? $state->name : '-' }}</td>
                                             <td>{{ !empty($state->country->name) ? $state->country->name : '-' }}</td>
-                                            <td><a href="{{ route('states.status', $state->id) }}"><span
-                                                        class="badge rounded-pill bg-{{ !$state->status == 1 ? 'danger' : 'success' }}">{{ !$state->status == 1 ? 'Deactive' : 'Active' }}</span></a>
+                                            <td>
+
+                                            <td>
+                                                @if ($state->status == 0)
+                                                    {!! Form::open([
+                                                        'method' => 'patch',
+                                                        'route' => ['states.status', $state->id],
+                                                        'class' => 'forms-sample',
+                                                    ]) !!}
+                                                    <button type="submit" class="btn badge rounded-pill bg-danger">InActive
+                                                    </button>
+
+                                                    {{ Form::close() }}
+                                                @else
+                                                    {!! Form::open([
+                                                        'method' => 'patch',
+                                                        'route' => ['states.status', $state->id],
+                                                        'class' => 'forms-sample',
+                                                    ]) !!}
+
+                                                    <button type="submit" class="btn badge rounded-pill bg-success">Active
+                                                    </button>
+
+                                                    {{ Form::close() }}
+                                                @endif
+                                            </td>
                                             </td>
                                             <td>
                                                 <form action="{{ route('states.destroy', $state->id) }}" method="POST">

@@ -3,19 +3,18 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Country;
-use App\Models\State;
+use App\Models\ImagePreset;
 use Illuminate\Http\Request;
 
-class StateController extends Controller
+class ImagePresetController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $states = State::latest()->get();
-        return view('backend.state.all_state', compact('states'));
+       $image_preset = ImagePreset::all();
+        return view('backend.image_preset.all_image_pre', compact('image_preset'));
     }
 
     /**
@@ -23,9 +22,7 @@ class StateController extends Controller
      */
     public function create()
     {
-        //
-        $countries = Country::pluck('name', 'id')->toArray();
-        return view('backend.state.add_state', compact('countries'));
+        return view('backend.image_preset.add_image_pre');
     }
 
     /**
@@ -33,27 +30,30 @@ class StateController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+       $validated = $request->validate([
             'name' => 'required|unique:countries|max:200',
-            'country_id' => 'required',
+            'width' => 'required',
+            'height' => 'required',
         ]);
 
-        State::insert([
+        ImagePreset::insert([
             'name' => $request->name,
-            'country_id' => $request->country_id,
+            'width' => $request->width,
+            'height' => $request->height,
             'status' => 1,
         ]);
         $notification = array(
-            'message' => 'State Added Successfully',
+            'message' => 'Image Preset Added Successfully',
             'alert-type' => 'success',
         );
         return redirect()->back()->with($notification);
     }
 
+
     /**
      * Display the specified resource.
      */
-    public function show(State $state)
+    public function show(ImagePreset $imagePreset)
     {
         //
     }
@@ -61,39 +61,43 @@ class StateController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(State $state)
+    public function edit(ImagePreset $imagePreset)
     {
-        $countries = Country::pluck('name', 'id')->toArray();
-        return view('backend.state.edit_state', compact('state', 'countries'));
-    }
-     public function StatusUpdate(Request $request, State $state)
-    {
-        $state->update([
-            'status' => ($state->status == 1) ? 0 : 1,
-        ]);
-        $notification = array(
-            'message' => 'State Status Updated Successfully',
-            'alert-type' => 'success',
-        );
-        return redirect()->route('properties.show',$state->id)->with($notification);
+        $image_preset=$imagePreset;
+        return view('backend.image_preset.edit_image_pre', compact('image_preset'));
     }
 
+    public function StatusUpdate(ImagePreset $imagePreset)
+    {
+
+        $imagePreset->update([
+            'status' => ($imagePreset->status == 1) ? 0 : 1,
+        ]);
+        $notification = array(
+            'message' => 'Image Preset Status Updated Successfully',
+            'alert-type' => 'success',
+        );
+        return redirect()->route('image_preset.index')->with($notification);
+    }
+    
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, State $state)
+    public function update(Request $request, ImagePreset $imagePreset)
     {
         $validated = $request->validate([
             'name' => 'required|max:200',
+            'width' => 'required',
+            'height' => 'required',
         ]);
 
-        $state->update([
+        $imagePreset->update([
             'name' => $request->name,
-            'country_id' => $request->country_id,
-            'status' => $request->status,
+            'width' => $request->width,
+            'height' => $request->height,
         ]);
         $notification = array(
-            'message' => 'State Updated Successfully',
+            'message' => 'Image Preset Updated Successfully',
             'alert-type' => 'success',
         );
         return redirect()->back()->with($notification);
@@ -102,14 +106,13 @@ class StateController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(State $state)
+    public function destroy(ImagePreset $imagePreset)
     {
-        $state->delete();
+        $imagePreset->delete();
         $notification = array(
-            'message' => 'State Deleted successfully',
+            'message' => 'Image Preset Deleted successfully',
             'alert-type' => 'success',
         );
         return redirect()->back()->with($notification);
     }
-
 }

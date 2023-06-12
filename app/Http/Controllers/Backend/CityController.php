@@ -63,8 +63,9 @@ class CityController extends Controller
      */
     public function edit(City $city)
     {
-        $cities = City::pluck('name', 'id')->toArray();
-        return view('backend.city.edit_city', compact('state', 'cities'));
+        $countries = Country::pluck('name', 'id')->toArray();
+        $states = State::pluck('name', 'id')->toArray();
+        return view('backend.city.edit_city', compact('countries','states','city'));
     }
 
     /**
@@ -111,13 +112,26 @@ class CityController extends Controller
         );
         return redirect()->back()->with($notification);
     }
-     public function states(State $state)
+     public function states()
+    {
+        $allstates = '';
+        $id = $_POST['country_id'];
+        $states = State::where('country_id', $id)->get();
+
+        echo '<option selected="selected">---Select State---</option>';
+        foreach ($states as $state) {
+            $allstates .= '<option value="' . $state->id . '">' . $state->id . '. ' . ucfirst($state->name) . '</option>';
+
+        }
+        return ($allstates);
+    }
+    public function cities()
     {
         $city = '';
-        $id = $_POST['state_id'];
+        $id = $_POST['country_id'];
         $cities = City::where('state_id', $id)->get();
 
-        echo '<option selected="selected">---Select City---</option>';
+        echo '<option selected="selected">---Select State---</option>';
         foreach ($cities as $coss) {
             $city .= '<option value="' . $coss->id . '">' . $coss->id . '. ' . ucfirst($coss->name) . '</option>';
 

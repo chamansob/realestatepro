@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ImagePreset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Traits\ImageGenTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
@@ -12,7 +14,14 @@ use Intervention\Image\Facades\Image;
 class AdminController extends Controller
 {
     //Admin Dashboard
-
+   public $path="upload/admin_images/";
+   public $image_preset;
+   public $image_preset_main;
+    use ImageGenTrait;
+    public function __construct(){
+    $this->image_preset = ImagePreset::whereIn('id', [2,4])->get();
+    $this->image_preset_main = ImagePreset::find(3);
+  }
     public function AdminDashboard()
     {
        return view('admin.index');
@@ -47,31 +56,17 @@ class AdminController extends Controller
         $data->email= $request->email;
         $data->phone= $request->phone;
         $data->address= $request->address;
-       
+        
+        
+        
          if($image = $request->file('photo'))
-        {    
-         $code =hexdec(uniqid());
-        $image = $request->file('photo');     
-        $name_gen = $code.'.'.$image->getClientOriginalExtension();        
-        Image::make($image)->resize(150,150)->save('upload/admin_images/'.$name_gen);
-        $name_gen2 = $code.'_small.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(30,30)->save('upload/admin_images/'.$name_gen2);
-        $save_url = 'upload/admin_images/'.$name_gen;  
-        $img=explode('.',Auth::user()->photo);       
-        $small_img =$img[0]."_small.".$img[1]; 
-            
-        if(file_exists(Auth::user()->photo))
-        {
-            unlink(Auth::user()->photo);           
-        }  
-       if(file_exists($small_img))
-        {
-            unlink($small_img);           
-        }    
-          
+        {  
+         $this->imageRemove(Auth::user()->photo,$this->image_preset);           
+         $save_url=$this->imageGenrator($image,$this->image_preset_main,$this->image_preset,$this->path);         
          $data->photo= $save_url;  
-         }
-         $data->save();       
+         }   
+            
+        $data->save();       
          $notification =array(
             'message' =>  'Admin Profile Updated Successfully',
             'alert-type' => 'success'

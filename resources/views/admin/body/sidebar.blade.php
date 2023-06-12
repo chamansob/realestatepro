@@ -77,6 +77,26 @@
                     </ul>
                 </div>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#image_preset" role="button" aria-expanded="false"
+                    aria-controls="image_preset">
+                    <i class="link-icon" data-feather="mail"></i>
+                    <span class="link-title">Image Preset</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="image_preset">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('image_preset.index') }}" class="nav-link">All Image Preset</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('image_preset.create') }}" class="nav-link">Add Image Preset</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
             <li class="nav-item nav-category">Other</li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#country" role="button" aria-expanded="false"
@@ -124,10 +144,10 @@
                 <div class="collapse" id="cities">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{ route('cities.index') }}" class="nav-link">All Country</a>
+                            <a href="{{ route('cities.index') }}" class="nav-link">All City</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('cities.create') }}" class="nav-link">Add Country</a>
+                            <a href="{{ route('cities.create') }}" class="nav-link">Add City</a>
                         </li>
                     </ul>
                 </div>

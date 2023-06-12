@@ -13,5 +13,8 @@ class AgentController extends Controller
     {
        return view('agent.agent_dashboard');
     }
-   
+   public function AgentLogin()
+    {
+       return view('agent.agent_login');
+    }
 }

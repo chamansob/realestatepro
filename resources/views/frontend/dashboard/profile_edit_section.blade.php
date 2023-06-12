@@ -18,7 +18,7 @@
                                     <div class="form-group">
 
                                         <img class="wd-70 rounded-circle" id="showImage"
-                                            src="{{ !empty($profileData->photo) ? asset('storage/user_images/' . $profileData->photo) : url('upload/no_image.jpg') }}"
+                                            src="{{ !empty($profileData->photo) ? asset($profileData->photo) : url('upload/no_image.jpg') }}"
                                             alt="profile">
                                     </div>
                                     <div class="form-group">

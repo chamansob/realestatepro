@@ -1,5 +1,7 @@
 @extends('admin.admin_dashboard')
 @section('admin')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
     <div class="page-content">
 
         <nav class="page-breadcrumb">
@@ -22,20 +24,31 @@
                         <div class="mb-3">
                             {!! Form::label('country_id', 'Country Name', ['class' => 'form-label']) !!}
 
-                            {!! Form::Select('country_id', $countries, null, ['class' => 'form-control', 'placeholder' => 'Select Country']) !!}
+                            {!! Form::Select('country_id', $countries, null, [
+                                'class' => 'form-control',
+                                'id' => 'countryinfo',
+                                'placeholder' => 'Select Country',
+                            ]) !!}
 
                         </div>
                         <div class="mb-3">
                             {!! Form::label('state_id', 'State Name', ['class' => 'form-label']) !!}
 
-                            {!! Form::Select('state_id', $states, null, ['class' => 'form-control', 'placeholder' => 'Select State']) !!}
+                            {!! Form::Select('state_id', $states, null, [
+                                'class' => 'form-control',
+                                'id' => 'statesinfo',
+                                'placeholder' => 'Select State',
+                            ]) !!}
 
                         </div>
                         <div class="mb-3">
 
                             {!! Form::label('name', 'Name', ['class' => 'form-label']) !!}
 
-                            {!! Form::text('name', $value = null, ['class' => 'form-control', 'placeholder' => 'Name']) !!}
+                            {!! Form::text('name', $value = null, [
+                                'class' => 'form-control',
+                                'placeholder' => 'Name',
+                            ]) !!}
                             @error('name')
                                 <span class="text-danger pt-3">{{ $message }}</span>
                             @enderror
@@ -49,4 +62,26 @@
         </div>
 
     </div>
+    <script>
+        $(document).ready(function() {
+            $('#countryinfo').on('change', function() {
+                var country_id = this.value;
+                var crf = '{{ csrf_token() }}';
+                $.ajax({
+                    url: "{{ route('cities.states') }}",
+                    type: "POST",
+                    data: {
+                        _token: crf,
+                        country_id: country_id
+                    },
+                    cache: false,
+                    success: function(result) {
+                        $("#statesinfo").html(result);
+                    }
+                });
+            });
+
+
+        });
+    </script>
 @endsection

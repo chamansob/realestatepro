@@ -43,7 +43,7 @@
                             ?>
                             {!! Form::label('status', 'Status', ['class' => 'form-label']) !!}
 
-                            {!! Form::Select('status', $status, $city->status, [
+                            {!! Form::Select('status', $status, $countries->status, [
                                 'class' => 'form-control',
                                 'placeholder' => 'Select Status',
                             ]) !!}
