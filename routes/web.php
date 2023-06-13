@@ -34,14 +34,14 @@ Route::get('/', [UserController::class, 'Index']);
 
 Route::get('/dashboard', function () {
     return view('frontend.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard')->middleware(RedirectIfAuthenticated::class);
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
     // User Routes
-    Route::get('/user/profile', [UserController::class, 'UserProfile'])->name('user.profile');
-    Route::post('/user/profile/store', [UserController::class, 'UserProfileStore'])->name('user.profile.store');   
-    Route::get('/user/change/password', [UserController::class, 'UserChangePassword'])->name('user.change.password');
-    Route::post('/user/password/update', [UserController::class, 'UserPasswordUpdate'])->name('user.password.update');
+    Route::get('/profile', [UserController::class, 'UserProfile'])->name('user.profile');
+    Route::post('/profile/store', [UserController::class, 'UserProfileStore'])->name('user.profile.store');   
+    Route::get('/change/password', [UserController::class, 'UserChangePassword'])->name('user.change.password');
+    Route::post('/password/update', [UserController::class, 'UserPasswordUpdate'])->name('user.password.update');
 
 });
 
@@ -54,6 +54,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::post('/profile/store',  'AdminProfileStore')->name('admin.profile.store');
         Route::get('/change/password',  'AdminChangePassword')->name('admin.change.password');
         Route::post('/password/update',  'AdminPasswordUpdate')->name('admin.password.update');
+       // Agent User All Routes
+        Route::get('/agents', 'AllAgents')->name('admin.agents');
+        Route::get('/agent/add', 'AgentAdd')->name('admin.agent_add');
+        Route::post('/agent/store',  'AgentStore')->name('admin.agent_store');
+        Route::get('/agent/edit/{id}', 'AgentEdit')->name('admin.agent_edit');
+        Route::put('/agent/update',  'AgentUpdate')->name('admin.agent_update');       
+        Route::put('/agent/status','AgentStatusUpdate')->name('admin.agent_status');
+        Route::delete('/agent/delete/{id}','AgentDelete')->name('admin.agent_delete');
+   
     });
      // Image Preset All Routes
     Route::resource('image_preset',ImagePresetController::class);
@@ -96,14 +105,22 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 // End Group Admin Middleware
 
 // Agent Group Middleware
-Route::middleware(['auth', 'role:agent'])->group(function () {
-    Route::get('/agent/dashboard', [AgentController::class, 'AgentDashboard'])->name('agent.dashboard');
+Route::middleware(['auth', 'role:agent'])->prefix('agent')->group(function () {
+    Route::controller(AgentController::class)->group(function () {
+    Route::get('/dashboard', 'AgentDashboard')->name('agent.dashboard');
+    Route::get('/profile', 'AgentProfile')->name('agent.profile');
+    Route::post('/profile/store',  'AgentProfileStore')->name('agent.profile.store');
+    Route::get('/change/password',  'AgentChangePassword')->name('agent.change.password');
+    Route::post('/password/update',  'AgentPasswordUpdate')->name('agent.password.update');
+ });
 });
 // End Group Agent Middleware
 Route::get('/agent/login', [AgentController::class, 'AgentLogin'])->name('agent.login')->middleware(RedirectIfAuthenticated::class);
+Route::post('/agent/register', [AgentController::class, 'AgentRegister'])->name('agent.register')->middleware(RedirectIfAuthenticated::class);
 
 Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login')->middleware(RedirectIfAuthenticated::class);
 Route::get('/admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
+Route::get('/agent/logout', [AgentController::class, 'AgentLogout'])->name('agent.logout');
 Route::get('/user/logout', [UserController::class, 'UserLogout'])->name('user.logout');
 
 require __DIR__ . '/auth.php';

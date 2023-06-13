@@ -369,10 +369,7 @@ class PropertyController extends Controller
         $property->update([
             'status' => ($property->status == 1) ? 0 : 1,
         ]);
-        $notification = array(
-            'message' => 'State Status Updated Successfully',
-            'alert-type' => 'success',
-        );
-        return redirect()->route('properties.show',$property->id)->with($notification);
+        
+        return response()->json(['success'=>'Status changed Successfully']);
     }
 }

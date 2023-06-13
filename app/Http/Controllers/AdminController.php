@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\ImagePreset;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Traits\ImageGenTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
-use Intervention\Image\Facades\Image;
+use Illuminate\Validation\Rules;
+
 
 class AdminController extends Controller
 {
     //Admin Dashboard
    public $path="upload/admin_images/";
+   public $path_agent="upload/agent_images/";
    public $image_preset;
    public $image_preset_main;
     use ImageGenTrait;
@@ -105,4 +108,103 @@ class AdminController extends Controller
         }
           return back()->with($notification);
     }
+
+    /////// Agent User All Methods ///////
+
+    public function AllAgents()
+    {
+      $agents =User::where('role','agent')->get();     
+      return view('backend.agents.all_agent',compact('agents'));
+    }
+    
+     public function AgentStatusUpdate(Request $request)
+    {
+        
+       $agent=User::find($request->user_id);
+       $id= $agent->update([
+            'status' => ($request->status == 1) ? 0 : 1,
+        ]);
+       
+        return response()->json(['success'=>'Status changed Successfully']);
+    }
+     public function AgentDelete($id)
+    {
+      $agent=User::find($id);
+        $agent->delete();
+        $notification = array(
+            'message' => 'Agent Deleted Successfully',
+            'alert-type' => 'success',
+        );
+        return redirect()->route('admin.agents')->with($notification);
+    }
+     public function AgentAdd()
+     {
+      return view('backend.agents.add_agent');
+     }
+     public function AgentStore(Request $request)
+     {
+      $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', Rules\Password::defaults()],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'password' => Hash::make($request->password),
+            'role' => 'agent',
+        ]);
+
+        event(new Registered($user));
+
+         $notification = array(
+            'message' => 'New Agent Added Successfully',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->route('admin.agents')->with($notification);
+     }
+     public function AgentEdit($id)
+     {
+        $agent = User::find($id);
+      return view('backend.agents.edit_agent',compact('agent'));
+     }
+      public function AgentUpdate(Request $request)
+     {
+       $agent = User::find($request->agent_id);
+       $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],            
+        ]);
+        if($image = $request->file('photo'))
+        {  
+         // dd($request->file('photo'));
+         $this->imageRemove($agent->photo,$this->image_preset);           
+         $save_url=$this->imageGenrator($image,$this->image_preset_main,$this->image_preset,$this->path_agent);         
+         }else
+         {
+         $save_url=$agent->photo;
+         }   
+           
+        $agent->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'password' => (empty($request->password)) ? $agent->password : Hash::make($request->password),
+            'photo' => $save_url,
+            'status' => $request->status,
+        ]);
+        
+
+         $notification = array(
+            'message' => 'Agent Updated Successfully',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->route('admin.agent_edit',$request->agent_id)->with($notification);
+     }
 }

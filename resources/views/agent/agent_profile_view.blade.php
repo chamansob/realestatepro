@@ -1,9 +1,7 @@
-@extends('admin.admin_dashboard')
-@section('admin')
+@extends('agent.agent_dashboard')
+@section('agent')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <div class="page-content">
-
-
         <div class="row profile-body">
             <!-- left wrapper start -->
             <div class="d-none d-md-block col-md-4 col-xl-4 left-wrapper">
@@ -13,7 +11,7 @@
 
                             <div>
                                 <img class="wd-100 rounded-circle"
-                                    src="{{ !empty($profileData->photo) ? asset('upload/admin_images/' . $profileData->photo) : url('upload/no_image.jpg') }}"
+                                    src="{{ !empty($profileData->photo) ? asset($profileData->photo) : url('upload/no_image.jpg') }}"
                                     alt="profile">
                                 <span class="h4 ms-3 ">{{ $profileData->name != '' ? $profileData->name : '--' }}</span>
                             </div>
@@ -61,42 +59,53 @@
                         <div class="card">
                             <div class="card-body">
 
-                                <h6 class="card-title">Admin Change Password</h6>
+                                <h6 class="card-title">Update Agent Profile</h6>
+                                {{ Form::open(['route' => 'agent.profile.store', 'class' => 'forms-sample', 'method' => 'post']) }}
 
-                                <form method="POST" class="forms-sample" action="{{ route('admin.password.update') }}"
-                                    autocomplete="off">
-                                    @csrf
+                                <div class="mb-3">
+                                    <img class="wd-70 rounded-circle" id="showImage"
+                                        src="{{ !empty($profileData->photo) ? asset($profileData->photo) : url('upload/no_image.jpg') }}"
+                                        alt="profile">
+                                </div>
+                                <div class="mb-3">
+                                    <x-input-label for="photo" :value="__('Photo')" />
+                                    <x-text-input id="photo" class="form-control" type="file" name="photo"
+                                        id="image" />
+                                </div>
+                                <div class="mb-3">
+                                    <x-input-label for="username" :value="__('Username')" />
+                                    <x-text-input id="username" class="form-control" type="text" name="username"
+                                        value="{{ $profileData->username != '' ? $profileData->username : '--' }}" required
+                                        autofocus autocomplete="off" />
+                                </div>
+                                <div class="mb-3">
 
-                                    <div class="mb-3">
-                                        <x-input-label for="old_password" :value="__('Old Password')" />
+                                    <x-input-label for="name" :value="__('Name')" />
+                                    <x-text-input id="name" class="form-control" type="text" name="name"
+                                        value="{{ $profileData->name != '' ? $profileData->name : '--' }}" required
+                                        autofocus autocomplete="off" />
 
-                                        <input type="password" name="old_password"
-                                            class="form-control @error('old_password') is-invalid @enderror "
-                                            id="old_password" autocomplete="off" />
-                                        @error('old_password')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3">
-                                        <x-input-label for="new_password" :value="__('New Password')" />
-                                        <input id="new_password"
-                                            class="form-control @error('new_password') is-invalid @enderror" type="password"
-                                            name="new_password" autocomplete="off" />
-                                        @error('new_password')
-                                            <span class="text-danger pt-1">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3">
-                                        <x-input-label for="new_password" :value="__('Confirm New Password')" />
-                                        <input id="new_password_confirmation" class="form-control" type="password"
-                                            name="new_password_confirmation" autocomplete="off" />
+                                </div>
+                                <div class="mb-3">
+                                    <x-input-label for="email" :value="__('Email')" />
+                                    <x-text-input id="email" class="form-control" type="email" name="email"
+                                        value="{{ $profileData->email != '' ? $profileData->email : '--' }}" required
+                                        autofocus autocomplete="off" />
+                                </div>
+                                <div class="mb-3">
+                                    <x-input-label for="phone" :value="__('Phone')" />
+                                    <x-text-input id="phone" class="form-control" type="text" name="phone"
+                                        value="{{ $profileData->phone != '' ? $profileData->phone : '' }}" />
+                                </div>
+                                <div class="mb-3">
+                                    <x-input-label for="address" :value="__('Address')" />
+                                    <x-textarea id="address" class="form-control" name="address"
+                                        value="{{ $profileData->address != '' ? $profileData->address : '' }}" />
+                                </div>
 
-                                    </div>
-                                    <x-primary-button class="btn btn-outline-primary btn-icon-text mb-2 mb-md-0">
-                                        {{ __('Update Password') }}
-                                    </x-primary-button>
 
-                                </form>
+                                {!! Form::submit('Save Chnages', ['class' => 'btn btn-outline-primary btn-icon-text mb-2 mb-md-0']) !!}
+                                {{ Form::close() }}
 
                             </div>
                         </div>

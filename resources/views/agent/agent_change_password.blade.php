@@ -1,5 +1,5 @@
-@extends('admin.admin_dashboard')
-@section('admin')
+@extends('agent.agent_dashboard')
+@section('agent')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <div class="page-content">
 
@@ -13,7 +13,7 @@
 
                             <div>
                                 <img class="wd-100 rounded-circle"
-                                    src="{{ !empty($profileData->photo) ? asset('upload/admin_images/' . $profileData->photo) : url('upload/no_image.jpg') }}"
+                                    src="{{ !empty($profileData->photo) ? asset('upload/agent_images/' . $profileData->photo) : url('upload/no_image.jpg') }}"
                                     alt="profile">
                                 <span class="h4 ms-3 ">{{ $profileData->name != '' ? $profileData->name : '--' }}</span>
                             </div>
@@ -61,7 +61,7 @@
                         <div class="card">
                             <div class="card-body">
 
-                                <h6 class="card-title">Admin Change Password</h6>
+                                <h6 class="card-title">Agent Change Password</h6>
 
                                 <form method="POST" class="forms-sample" action="{{ route('admin.password.update') }}"
                                     autocomplete="off">

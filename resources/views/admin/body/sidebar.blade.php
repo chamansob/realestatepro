@@ -61,7 +61,7 @@
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#amenities" role="button" aria-expanded="false"
                     aria-controls="amenities">
-                    <i class="link-icon" data-feather="mail"></i>
+                    <i class="link-icon" data-feather="star"></i>
                     <span class="link-title">Amenities</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
@@ -81,7 +81,7 @@
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#image_preset" role="button" aria-expanded="false"
                     aria-controls="image_preset">
-                    <i class="link-icon" data-feather="mail"></i>
+                    <i class="link-icon" data-feather="airplay"></i>
                     <span class="link-title">Image Preset</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
@@ -94,6 +94,24 @@
                             <a href="{{ route('image_preset.create') }}" class="nav-link">Add Image Preset</a>
                         </li>
 
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#agents" role="button" aria-expanded="false"
+                    aria-controls="agents">
+                    <i class="link-icon" data-feather="user"></i>
+                    <span class="link-title">Manage Agent</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="agents">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.agents') }}" class="nav-link">All Agent</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.agent_add') }}" class="nav-link">Add Agent</a>
+                        </li>
                     </ul>
                 </div>
             </li>
