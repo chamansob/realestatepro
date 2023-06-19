@@ -44,6 +44,9 @@
     <!-- End layout styles -->
 
     <link rel="shortcut icon" href="{{ asset('backend/assets/images/favicon.png') }}" />
+    <!-- Toggle styles -->
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -132,7 +135,8 @@
     <script src="{{ asset('backend/assets/js/select2.js') }}"></script>
     <script src="{{ asset('backend/assets/js/tags-input.js') }}"></script>
     <script src="{{ asset('backend/assets/js/tinymce.js') }}"></script>
-
+    <!-- Toggle Style js for this page -->
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </body>
 
 </html>

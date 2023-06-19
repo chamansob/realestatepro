@@ -1,4 +1,7 @@
 $(function () {
+ 
+  $('li.active').removeClass('active').removeAttr('aria-current');
+  $('a[href="' + location.pathname + '"]').closest('li').addClass('active').attr('aria-current', 'page'); 
      $(".btn-submit").on('click',function(e){
     e.preventDefault();
         var form = $(this).parents('form'); 

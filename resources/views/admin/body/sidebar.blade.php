@@ -115,6 +115,51 @@
                     </ul>
                 </div>
             </li>
+
+            <li class="nav-item">
+
+                <a href="{{ route('admin.package_history') }}" class="nav-link">
+                    <i class="link-icon" data-feather="calendar"></i>
+
+                    <span class="link-title">Package History</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#plan" role="button" aria-expanded="false"
+                    aria-controls="plan">
+                    <i class="link-icon" data-feather="dollar-sign"></i>
+                    <span class="link-title">Plan</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="plan">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('plan.index') }}" class="nav-link">All Plan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('plan.create') }}" class="nav-link">Add Plan</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#planfeature" role="button"
+                    aria-expanded="false" aria-controls="planfeature">
+                    <i class="link-icon" data-feather="dollar-sign"></i>
+                    <span class="link-title">Plan Feature</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="planfeature">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('planFeatures.index') }}" class="nav-link">All Plan Feature</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('planFeatures.create') }}" class="nav-link">Add Plan Feature</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
             <li class="nav-item nav-category">Other</li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#country" role="button" aria-expanded="false"

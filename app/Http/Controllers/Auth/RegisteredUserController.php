@@ -38,6 +38,7 @@ class RegisteredUserController extends Controller
 
         $user = User::create([
             'name' => $request->name,
+            'username' => preg_replace('/[^A-Za-z0-9-]+/', '-', $request->name),
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);

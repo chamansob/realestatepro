@@ -15,7 +15,6 @@ use App\Models\User;
 use App\Traits\ImageGenTrait;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
 
 class PropertyController extends Controller
 {

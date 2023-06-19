@@ -33,56 +33,95 @@
                             <x-text-input id="photo" class="form-control" type="file" name="photo"
                                 id="image" />
                         </div>
-                        <div class="mb-3">
-                            {!! Form::hidden('agent_id', $value = $agent->id) !!}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="mb-3">
 
 
-                            {!! Form::label('name', 'Agent Name', ['class' => 'form-label']) !!}
 
-                            {!! Form::text('name', $value = $agent->name, ['class' => 'form-control', 'placeholder' => 'Agent Name']) !!}
-                            @error('name')
-                                <span class="text-danger pt-3">{{ $message }}</span>
-                            @enderror
+                                    {!! Form::label('username', 'Agent Username', ['class' => 'form-label']) !!}
+
+                                    {!! Form::text('username', $value = $agent->username, [
+                                        'class' => 'form-control',
+                                        'placeholder' => 'Agent Username',
+                                    ]) !!}
+                                    @error('username')
+                                        <span class="text-danger pt-3">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="mb-3">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    {!! Form::hidden('agent_id', $value = $agent->id) !!}
 
-                            {!! Form::label('email', 'Agent Email', ['class' => 'form-label']) !!}
 
-                            {!! Form::email('email', $value = $agent->email, ['class' => 'form-control', 'placeholder' => 'Agent Email']) !!}
-                            @error('email')
-                                <span class="text-danger pt-3">{{ $message }}</span>
-                            @enderror
+                                    {!! Form::label('name', 'Agent Name', ['class' => 'form-label']) !!}
+
+                                    {!! Form::text('name', $value = $agent->name, ['class' => 'form-control', 'placeholder' => 'Agent Name']) !!}
+                                    @error('name')
+                                        <span class="text-danger pt-3">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+
+                                    {!! Form::label('email', 'Agent Email', ['class' => 'form-label']) !!}
+
+                                    {!! Form::email('email', $value = $agent->email, ['class' => 'form-control', 'placeholder' => 'Agent Email']) !!}
+                                    @error('email')
+                                        <span class="text-danger pt-3">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-3">
 
-                            {!! Form::label('phone', 'Agent Phone', ['class' => 'form-label']) !!}
 
-                            {!! Form::text('phone', $value = $agent->phone, ['class' => 'form-control', 'placeholder' => 'Agent Phone']) !!}
-                            @error('phone')
-                                <span class="text-danger pt-3">{{ $message }}</span>
-                            @enderror
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+
+                                    {!! Form::label('phone', 'Agent Phone', ['class' => 'form-label']) !!}
+
+                                    {!! Form::text('phone', $value = $agent->phone, ['class' => 'form-control', 'placeholder' => 'Agent Phone']) !!}
+                                    @error('phone')
+                                        <span class="text-danger pt-3">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+
+                                    {!! Form::label('password', 'Password', ['class' => 'form-label']) !!}
+                                    {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Agent Password']) !!}
+                                    @error('password')
+                                        <span class="text-danger pt-3">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-3">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="mb-3">
 
-                            {!! Form::label('address', 'Agent Address', ['class' => 'form-label']) !!}
+                                    {!! Form::label('address', 'Agent Address', ['class' => 'form-label']) !!}
 
-                            {!! Form::textarea('address', $value = $agent->address, [
-                                'class' => 'form-control',
-                                'rows' => 3,
-                                'placeholder' => 'Agent Address',
-                            ]) !!}
-                            @error('address')
-                                <span class="text-danger pt-3">{{ $message }}</span>
-                            @enderror
+                                    {!! Form::textarea('address', $value = $agent->address, [
+                                        'class' => 'form-control',
+                                        'rows' => 3,
+                                        'placeholder' => 'Agent Address',
+                                    ]) !!}
+                                    @error('address')
+                                        <span class="text-danger pt-3">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-3">
 
-                            {!! Form::label('password', 'Password', ['class' => 'form-label']) !!}
-                            {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Agent Password']) !!}
-                            @error('password')
-                                <span class="text-danger pt-3">{{ $message }}</span>
-                            @enderror
-                        </div>
+
 
                         <div class="mb-3">
                             <?php

@@ -13,7 +13,7 @@
         <ul class="nav">
             <li class="nav-item nav-category">Main</li>
             <li class="nav-item">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link">
+                <a href="{{ route('agent.dashboard') }}" class="nav-link">
                     <i class="link-icon" data-feather="box"></i>
                     <span class="link-title">Dashboard</span>
                 </a>
@@ -24,40 +24,29 @@
                     <a class="nav-link" data-bs-toggle="collapse" href="#type" role="button" aria-expanded="false"
                         aria-controls="type">
                         <i class="link-icon" data-feather="feather"></i>
-                        <span class="link-title">Propert Type</span>
+                        <span class="link-title">Propert</span>
                         <i class="link-arrow" data-feather="chevron-down"></i>
                     </a>
                     <div class="collapse" id="type">
                         <ul class="nav sub-menu">
                             <li class="nav-item">
-                                <a href="{{ route('property_types.index') }}" class="nav-link">All Type</a>
+                                <a href="{{ route('agent.properties') }}" class="nav-link">All Property</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('property_types.create') }}" class="nav-link">Add Type</a>
+                                <a href="{{ route('agent.properties.create') }}" class="nav-link">Add Property</a>
                             </li>
 
                         </ul>
                     </div>
                 </li>
-
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="collapse" href="#cities" role="button" aria-expanded="false"
-                        aria-controls="cities">
-                        <i class="link-icon" data-feather="mail"></i>
-                        <span class="link-title">City</span>
-                        <i class="link-arrow" data-feather="chevron-down"></i>
+                    <a href="{{ route('agent.buy.package') }}" class="nav-link">
+                        <i class="link-icon" data-feather="briefcase"></i>
+                        <span class="link-title">Buy Package</span>
                     </a>
-                    <div class="collapse" id="cities">
-                        <ul class="nav sub-menu">
-                            <li class="nav-item">
-                                <a href="{{ route('cities.index') }}" class="nav-link">All City</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('cities.create') }}" class="nav-link">Add City</a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
+
+
                 <li class="nav-item nav-category">Components</li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="collapse" href="#uiComponents" role="button"
@@ -97,14 +86,14 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('agent.buy.package.package_history') }}" class="nav-link">
+                        <i class="link-icon" data-feather="calendar"></i>
+                        <span class="link-title">Package History </span>
+                    </a>
+                </li>
             @endif
-            <li class="nav-item nav-category">Docs</li>
-            <li class="nav-item">
-                <a href="#" target="_blank" class="nav-link">
-                    <i class="link-icon" data-feather="hash"></i>
-                    <span class="link-title">Documentation</span>
-                </a>
-            </li>
+
 
         </ul>
     </div>

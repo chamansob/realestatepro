@@ -280,10 +280,10 @@
                             </div><!-- Col -->
                             <div class="col-sm-4">
                                 <div class="mb-3">
-                                    {!! Form::label('neighborhood', 'Agent ', ['class' => 'form-label']) !!}
-                                    {!! Form::Select('neighborhood', $agent, $property->agent_id, [
+                                    {!! Form::label('agent', 'Agent ', ['class' => 'form-label']) !!}
+                                    {!! Form::Select('agent', $agent, $property->agent_id, [
                                         'class' => 'form-control js-example-basic-single',
-                                        'placeholder' => 'Select Neighborhood',
+                                        'placeholder' => 'Select Agent',
                                     ]) !!}
 
                                 </div>
@@ -435,7 +435,10 @@
 
 
                         </div>
-                        {!! Form::submit('Add More Images', ['class' => 'btn btn-outline-primary btn-icon-text mb-2 mb-md-0']) !!}
+                        {!! Form::submit('Add More Images', [
+                            'class' => 'btn btn-outline-primary btn-icon-text mb-2
+                                            mb-md-0',
+                        ]) !!}
                         {{ Form::close() }}
 
                         <div class="table-responsive">
@@ -477,12 +480,16 @@
                                                     ]) !!}
                                                 </td>
 
-                                                <td>{!! Form::submit('Update Image', ['class' => 'btn btn-outline-primary btn-icon-text mb-2 mb-md-0']) !!}
+                                                <td>{!! Form::submit('Update Image', [
+                                                    'class' => 'btn btn-outline-primary
+                                                                                        btn-icon-text mb-2 mb-md-0',
+                                                ]) !!}
 
 
                                                     <a href="{{ route('properties.multi_img_delete', $multi->id) }}"
                                                         class="btn btn-outline-danger btn-icon-text mb-2 mb-md-0"
-                                                        id="delete">Delete </a>
+                                                        id="delete">Delete
+                                                    </a>
                                                 </td>
 
                                             </tr>

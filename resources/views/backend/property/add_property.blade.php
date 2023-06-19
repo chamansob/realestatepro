@@ -269,10 +269,10 @@
                             </div><!-- Col -->
                             <div class="col-sm-4">
                                 <div class="mb-3">
-                                    {!! Form::label('neighborhood', 'Agent ', ['class' => 'form-label']) !!}
-                                    {!! Form::Select('neighborhood', $agent, null, [
+                                    {!! Form::label('agent', 'Agent ', ['class' => 'form-label']) !!}
+                                    {!! Form::Select('agent', $agent, null, [
                                         'class' => 'form-control js-example-basic-single',
-                                        'placeholder' => 'Select Neighborhood',
+                                        'placeholder' => 'Select Agent',
                                     ]) !!}
 
                                 </div>
