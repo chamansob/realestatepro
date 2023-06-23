@@ -1,21 +1,23 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Agent\AgentPropertyController;
 use App\Http\Controllers\AgentController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\Backend\PropertyTypeController;
-use App\Http\Controllers\Backend\PropertyController;
+use App\Http\Controllers\Agent\AgentPropertyController;
 use App\Http\Controllers\Backend\AmenitiesController;
-use App\Http\Controllers\Backend\CountryController;
-use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\CityController;
+use App\Http\Controllers\Backend\CountryController;
 use App\Http\Controllers\Backend\ImagePresetController;
 use App\Http\Controllers\Backend\PlanController;
 use App\Http\Controllers\Backend\PlanFeaturesController;
+use App\Http\Controllers\Backend\PropertyController;
+use App\Http\Controllers\Backend\PropertyTypeController;
+use App\Http\Controllers\Backend\StateController;
+use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CompareController;
+use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\RedirectIfAuthenticated;
-
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +28,7 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -55,15 +57,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::controller(AdminController::class)->group(function () {
         Route::get('/dashboard', 'AdminDashboard')->name('admin.dashboard');
         Route::get('/profile', 'AdminProfile')->name('admin.profile');
-        Route::post('/profile/store',  'AdminProfileStore')->name('admin.profile.store');
-        Route::get('/change/password',  'AdminChangePassword')->name('admin.change.password');
-        Route::post('/password/update',  'AdminPasswordUpdate')->name('admin.password.update');
+        Route::post('/profile/store', 'AdminProfileStore')->name('admin.profile.store');
+        Route::get('/change/password', 'AdminChangePassword')->name('admin.change.password');
+        Route::post('/password/update', 'AdminPasswordUpdate')->name('admin.password.update');
         // Agent User All Routes
         Route::get('/agents', 'AllAgents')->name('admin.agents');
         Route::get('/agent/add', 'AgentAdd')->name('admin.agent_add');
-        Route::post('/agent/store',  'AgentStore')->name('admin.agent_store');
+        Route::post('/agent/store', 'AgentStore')->name('admin.agent_store');
         Route::get('/agent/edit/{id}', 'AgentEdit')->name('admin.agent_edit');
-        Route::put('/agent/update',  'AgentUpdate')->name('admin.agent_update');
+        Route::put('/agent/update', 'AgentUpdate')->name('admin.agent_update');
         Route::put('/agent/status', 'AgentStatusUpdate')->name('admin.agent_status');
         Route::delete('/agent/delete/{id}', 'AgentDelete')->name('admin.agent_delete');
 
@@ -90,13 +92,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::post('/properties/states', 'states')->name('properties.states');
         Route::patch('/properties/update_img/{property}', 'update_img')->name('properties.update_img');
         Route::get('/properties/multi_img_delete/{id}', 'multiImageDestory')->name('properties.multi_img_delete');
-        Route::patch('/properties/multi_img_update/{property}',  'multiImageUpdate')->name('properties.multi_img_update');
+        Route::patch('/properties/multi_img_update/{property}', 'multiImageUpdate')->name('properties.multi_img_update');
         Route::patch('/properties/multi_img_update_one/{id}', 'multiImageUpdateOne')->name('properties.multi_img_update_one');
-        Route::patch('/properties/facility_update/{property}',  'facilityUpdate')->name('properties.facility_update');
+        Route::patch('/properties/facility_update/{property}', 'facilityUpdate')->name('properties.facility_update');
         Route::get('/properties/facility_delete/{id}', 'facilityDestory')->name('properties.facility_delete');
-        Route::patch('/properties/status/{property}',  'StatusUpdate')->name('properties.status');
+        Route::patch('/properties/status/{property}', 'StatusUpdate')->name('properties.status');
     });
-    //  
+    //
 
     // Property Amenities Type All Routes
     Route::resource('amenities', AmenitiesController::class);
@@ -107,18 +109,18 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     // Property State All Routes
     Route::resource('states', StateController::class);
     Route::patch('/states/status/{state}', [StateController::class, 'StatusUpdate'])->name('states.status');
-    //    
+    //
     // Property Cities Type All Routes
 
     Route::resource('cities', CityController::class);
     Route::controller(CityController::class)->group(function () {
-        Route::post('/city/states',  'states')->name('cities.states');
-        Route::post('/city/cities',  'cities')->name('cities.cities');
-        Route::patch('/city/status/{state}',  'StatusUpdate')->name('cities.status');
-        //      
+        Route::post('/city/states', 'states')->name('cities.states');
+        Route::post('/city/cities', 'cities')->name('cities.cities');
+        Route::patch('/city/status/{state}', 'StatusUpdate')->name('cities.status');
+        //
     });
 
- });
+});
 // End Group Admin Middleware
 
 // Agent Group Middleware
@@ -126,9 +128,9 @@ Route::middleware(['auth', 'role:agent'])->prefix('agent')->group(function () {
     Route::controller(AgentController::class)->group(function () {
         Route::get('/dashboard', 'AgentDashboard')->name('agent.dashboard');
         Route::get('/profile', 'AgentProfile')->name('agent.profile');
-        Route::post('/profile/store',  'AgentProfileStore')->name('agent.profile.store');
-        Route::get('/change/password',  'AgentChangePassword')->name('agent.change.password');
-        Route::post('/password/update',  'AgentPasswordUpdate')->name('agent.password.update');
+        Route::post('/profile/store', 'AgentProfileStore')->name('agent.profile.store');
+        Route::get('/change/password', 'AgentChangePassword')->name('agent.change.password');
+        Route::post('/password/update', 'AgentPasswordUpdate')->name('agent.password.update');
     });
 
     Route::controller(AgentPropertyController::class)->group(function () {
@@ -143,11 +145,11 @@ Route::middleware(['auth', 'role:agent'])->prefix('agent')->group(function () {
         Route::patch('/properties/update_img/{property}', 'update_img')->name('agent.properties.update_img');
         Route::get('/properties/multi_img_delete/{id}', 'multiImageDestory')->name('agent.properties.multi_img_delete');
         Route::patch('/properties/multi_img_update/{property}', 'multiImageUpdate')->name('agent.properties.multi_img_update');
-        Route::patch('/properties/multi_img_update_one/{id}',  'multiImageUpdateOne')->name('agent.properties.multi_img_update_one');
+        Route::patch('/properties/multi_img_update_one/{id}', 'multiImageUpdateOne')->name('agent.properties.multi_img_update_one');
         Route::patch('/properties/facility_update/{property}', 'facilityUpdate')->name('agent.properties.facility_update');
-        Route::get('/properties/facility_delete/{id}',  'facilityDestory')->name('agent.properties.facility_delete');
+        Route::get('/properties/facility_delete/{id}', 'facilityDestory')->name('agent.properties.facility_delete');
 
-        // Agent Buy Package Route from admin 
+        // Agent Buy Package Route from admin
         Route::get('/buy/package', 'BuyPackage')->name('agent.buy.package');
         Route::get('/buy/plan/{id}', 'BuyPlan')->name('agent.buy.plan');
         Route::get('/buy/package_history', 'PackageHistory')->name('agent.buy.package.package_history');
@@ -165,3 +167,22 @@ Route::get('/agent/logout', [AgentController::class, 'AgentLogout'])->name('agen
 Route::get('/user/logout', [UserController::class, 'UserLogout'])->name('user.logout');
 
 require __DIR__ . '/auth.php';
+
+// Forntend Property Details All Route
+Route::controller(IndexController::class)->group(function () {
+    Route::get('/property/details/{id}/{slug}', 'PropertyDetails')->name('property.details');
+    
+});
+Route::controller(WishlistController::class)->group(function () {
+    Route::post('/add-to-wishlist/{id}', 'AddToWishList')->name('add.to.wishlist');
+    Route::get('/user/wishlist', 'UserWishlist')->name('user.wishlist');
+    Route::get('/get-wishlist-property', 'GetWishlistProperty'); 
+    Route::get('/wishlist-remove/{id}', 'WishlistRemove'); 
+});
+
+Route::controller(CompareController::class)->group(function () {
+    Route::post('/add-to-compare/{id}', 'AddToCompare')->name('add.to.compare');
+    Route::get('/user/compare', 'UserCompare')->name('user.compare');
+    Route::get('/get-compare-property', 'GetCompareProperty'); 
+    Route::get('/compare-remove/{id}', 'CompareRemove'); 
+});

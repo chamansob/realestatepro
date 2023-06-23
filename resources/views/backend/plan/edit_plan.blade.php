@@ -97,7 +97,7 @@
 
                                 <div class="mb-3">
                                     {!! Form::label('plan_pack_id', 'Plan Features', ['class' => 'form-label']) !!}
-                                    {!! Form::select('plan_pack_id[]', $value = $features, $plan->plan_pack_id, [
+                                    {!! Form::select('plan_pack_id[]', $value = $features, explode(',', $plan->plan_pack_id), [
                                         'class' => 'form-control js-example-basic-multiple',
                                         'multiple' => true,
                                     ]) !!}

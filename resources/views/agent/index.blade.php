@@ -4,16 +4,14 @@
 
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
             <div>
-
                 <h4 class="mb-3 mb-md-0">Agent Account is <span
-                        class="text-{{ Auth::user()->status == 0 ? 'success' : 'danger' }}">{{ Auth::user()->status == 0 ? 'Active' : 'Inactive' }}</span>
-
+                        class="text-{{ Auth::user()->status == 0 ? 'success' : 'danger' }}">{{ Auth::user()->status == 0 ? 'Active' : 'Inactive' }}
+                        ({{ Auth::user()->credit }})</span>
                 </h4>
                 @if (Auth::user()->status == 1)
                     <p class="text-danger">Plz wait admin will check and
                         approve your account </p>
                 @endif
-
                 <h4 class="mb-3 mb-md-0">Welcome to Dashboard</h4>
             </div>
             <div class="d-flex align-items-center flex-wrap text-nowrap">

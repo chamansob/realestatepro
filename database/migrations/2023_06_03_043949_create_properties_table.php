@@ -28,11 +28,11 @@ return new class extends Migration
             $table->string('bathrooms')->nullable();
             $table->string('garage')->nullable();
             $table->string('garage_size')->nullable();
-            $table->string('property_size')->nullable();
+            $table->integer('property_size')->nullable();
             $table->string('property_video')->nullable();
             $table->string('address')->nullable();
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
+            $table->integer('city_id');
+            $table->integer('state_id');
             $table->string('postal_code')->nullable();
             $table->string('neighborhood')->nullable();
             $table->string('latitude')->nullable();

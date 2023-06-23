@@ -11,7 +11,7 @@
                 <li class="breadcrumb-item active" aria-current="page">Pricing</li>
                 </li>
             </ol>
-            <a href="{{ route('agent.properties.create') }}" class="btn btn-inverse-info">Add Package</a>
+            <a href="{{ route('agent.properties.create') }}" class="btn btn-inverse-info">Add Property</a>
 
         </nav>
 
@@ -39,20 +39,39 @@
                                                 </h5>
                                                 <table class="mx-auto">
                                                     <tr>
-                                                        <td><i data-feather="check"
-                                                                class="icon-md text-{{ $plan->plan_color }} me-2"></i>
+                                                        <td><i data-feather="check" class="icon-md text-success me-2"></i>
                                                         </td>
+
                                                         <td>
                                                             <p>Up to {{ $plan->plan_credit }} Property</p>
                                                         </td>
                                                     </tr>
+                                                    <?php
+                                                    $fe = $plan->fe_In($plan->plan_pack_id);
+                                                    ?>
+                                                    @foreach ($fe as $feature)
+                                                        <tr>
+                                                            <td><i data-feather="check"
+                                                                    class="icon-md text-success me-2"></i>
+                                                            </td>
+                                                            <td>
+                                                                <p>{{ $feature->features_name }}</p>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                    <?php
+                                                    $fe = $plan->fe_Not_In($plan->plan_pack_id);
+                                                    ?>
+                                                    @foreach ($fe as $feature)
+                                                        <tr>
+                                                            <td><i data-feather="x" class="icon-md text-danger me-2"></i>
+                                                            </td>
+                                                            <td>
+                                                                <p class="text-muted">{{ $feature->features_name }}</p>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
 
-                                                    <tr>
-                                                        <td><i data-feather="x" class="icon-md text-danger me-2"></i></td>
-                                                        <td>
-                                                            <p class="text-muted">Premium Support</p>
-                                                        </td>
-                                                    </tr>
                                                 </table>
                                                 <div class="d-grid">
                                                     <a href="{{ route('agent.buy.plan', $plan->id) }}"

@@ -56,8 +56,7 @@ class AgentController extends Controller
         event(new Registered($user));
 
         Auth::login($user); 
-        $current_plan=  Plan::findOrFail(1);
-        $nid = $user->credit;  
+        $current_plan=  Plan::findOrFail(1);        
         PackagePlan::insert([
         'user_id' => $user->id,
         'package_name' => $current_plan->plan_name,
@@ -67,7 +66,7 @@ class AgentController extends Controller
         'created_at' => Carbon::now(), 
       ]);
        User::where('id',$user->id)->update([
-            'credit' =>  $current_plan->plan_credit + $nid,
+            'credit' =>  $current_plan->plan_credit,
         ]);
         return redirect(RouteServiceProvider::AGENT);
     }

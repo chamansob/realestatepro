@@ -47,16 +47,16 @@
                                             <td>{{ ucfirst($property->property_name) }}</td>
                                             <td>{{ $property->type->type_name }}</td>
                                             <td>{{ ucfirst($property->property_status) }}</td>
-                                            <td>{{ $property->city($property->city) }}</td>
+                                            <td>{{ $property->city->name }}</td>
                                             <td>{{ $property->property_code }}</td>
                                             <td> <a href="#" id="currentStatus{{ $property->id }}"><span
-                                                        class="badge rounded-pill bg-{{ $property->status == 1 ? 'danger' : 'success' }}">{{ $property->status == 1 ? 'Deactive' : 'Active' }}</span></a>
+                                                        class="badge rounded-pill bg-{{ $property->status == 0 ? 'danger' : 'success' }}">{{ $property->status == 0 ? 'Deactive' : 'Active' }}</span></a>
                                             </td>
                                             <td>
                                                 <input data-id="{{ $property->id }}" class="toggle-class" type="checkbox"
                                                     data-onstyle="success" data-offstyle="danger" data-toggle="toggle"
                                                     data-on="Active" data-off="Deactive"
-                                                    {{ $property->status == 0 ? 'checked' : '' }}>
+                                                    {{ $property->status == 1 ? 'checked' : '' }}>
 
                                             </td>
                                             <td>
@@ -91,7 +91,7 @@
         $(function() {
             $('.toggle-class').change(function() {
                 var status = $(this).prop('checked') == true ? 1 : 0;
-                var user_id = $(this).data('id');
+                var property_id = $(this).data('id');
                 var crf = '{{ csrf_token() }}';
                 $.ajax({
                     type: "PATCH",
@@ -100,21 +100,22 @@
                     data: {
                         _token: crf,
                         'status': status,
-                        'user_id': user_id
+                        'property_id': property_id
                     },
                     success: function(data) {
                         // console.log(data.success)
                         // Start Message 
                         if (status == 1) {
-                            $('#currentStatus' + user_id).html('')
-                            $('#currentStatus' + user_id).html(
+                            $('#currentStatus' + property_id).html('')
+                            $('#currentStatus' + property_id).html(
                                 '<span class="badge rounded-pill bg-success">Active</span>'
                             )
 
                         }
                         if (status == 0) {
-                            $('#currentStatus' + user_id).html('')
-                            $('#currentStatus' + user_id).html(
+
+                            $('#currentStatus' + property_id).html('')
+                            $('#currentStatus' + property_id).html(
                                 '<span class="badge rounded-pill bg-danger">Deactive</span>'
                             )
                         }

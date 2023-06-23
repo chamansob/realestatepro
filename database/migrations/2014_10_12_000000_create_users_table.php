@@ -22,7 +22,8 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
             $table->enum('role',['admin','agent','user'])->default('user');
-            $table->boolean('status')->default(0);           
+            $table->boolean('status')->default(0); 
+            $table->integer('credit')->default(0);           
             $table->rememberToken();
             $table->timestamps();
         });

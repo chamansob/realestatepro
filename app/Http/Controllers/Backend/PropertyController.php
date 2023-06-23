@@ -78,8 +78,8 @@ class PropertyController extends Controller
             'property_size' => $request->property_size,
             'property_video' => $request->property_video,
             'address' => $request->address,
-            'city' => $request->city,
-            'state' => $request->state,
+            'city_id' => $request->city,
+            'state_id' => $request->state,
             'postal_code' => $request->postal_code,
 
             'neighborhood' => $request->neighborhood,
@@ -181,8 +181,8 @@ class PropertyController extends Controller
             'property_size' => $request->property_size,
             'property_video' => $request->property_video,
             'address' => $request->address,
-            'city' => $request->city,
-            'state' => $request->state,
+            'city_id' => $request->city,
+            'state_id' => $request->state,
             'postal_code' => $request->postal_code,
 
             'neighborhood' => $request->neighborhood,
@@ -364,7 +364,7 @@ class PropertyController extends Controller
     }
     public function StatusUpdate(Request $request, Property $property)
     {
-
+      $property=Property::findOrFail($request->property_id);
         $property->update([
             'status' => ($property->status == 1) ? 0 : 1,
         ]);

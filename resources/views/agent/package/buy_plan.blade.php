@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item active" aria-current="page">Buy Plan</li>
                 </li>
             </ol>
-            <a href="{{ route('agent.properties.create') }}" class="btn btn-inverse-info">Add Package</a>
+            <a href="{{ route('agent.properties.create') }}" class="btn btn-inverse-info">Add Property</a>
 
         </nav>
 

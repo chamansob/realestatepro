@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Wishlist;
+use Illuminate\Support\Facades\Auth;
 
 class Property extends Model
 {
@@ -11,25 +13,49 @@ class Property extends Model
     protected $guarded = [];
     public function type()
     {
-    return  $this->belongsTo(PropertyType::class,'ptype_id');
-       
+        return  $this->belongsTo(PropertyType::class, 'ptype_id');
     }
-    public function city($id)
+    public function user()
     {
-       $city= City::find($id)->first();
-        return ucfirst($city->name);
+        return  $this->belongsTo(User::class, 'agent_id');
     }
-     public function state($id)
-    {
-       $city= City::find($id)->first();
-        return ucfirst($city->state_id);
+    public function city()
+    {       
+         return  $this->belongsTo(City::class, 'city_id');
     }
-      public function amenities($id)
+    public function state()
     {
-        $new= explode(",",$id);
-       $amenities= Amenities::whereIn('id',$new)->pluck('id')->toArray();
+      return  $this->belongsTo(State::class, 'state_id');
+    }
+     public function amenities()
+    {
+        return $this->belongsToMany(Amenities::class,'amenities_id','id');
+    }
 
-        return $amenities;
+    public function wishlist($id)
+    {
+        $exists = 0;
+        if (Auth::check()) {
+            $wish = Wishlist::where('user_id', Auth::id())
+                ->where('property_id', $id)
+                ->get();
+
+            $exists = count($wish);
+        }
+
+        return $exists;
     }
-    
+    public function compare($id)
+    {
+        $exists = 0;
+        if (Auth::check()) {
+            $wish = Compare::where('user_id', Auth::id())
+                ->where('property_id', $id)
+                ->get();
+
+            $exists = count($wish);
+        }
+
+        return $exists;
+    }
 }

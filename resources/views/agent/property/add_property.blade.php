@@ -295,25 +295,7 @@
 
                             </div>
                         </div><!-- Col -->
-                        <div class="col-sm-12">
-                            <div class="mb-3">
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" name="featured" class="form-check-input" id="checkInlineChecked"
-                                        value="1">
-                                    <label class="form-check-label" for="checkInlineChecked">
-                                        Featured Property
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" name="hot" class="form-check-input" id="checkInline"
-                                        value="1">
-                                    <label class="form-check-label" for="checkInline">
-                                        Hot Property
-                                    </label>
-                                </div>
 
-                            </div>
-                        </div>
 
                         <!-- Facilities Option Started -->
                         <div class="row add_item">

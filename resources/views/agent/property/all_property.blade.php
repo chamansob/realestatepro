@@ -46,7 +46,7 @@
                                             <td>{{ ucfirst($property->property_name) }}</td>
                                             <td>{{ $property->type->type_name }}</td>
                                             <td>{{ ucfirst($property->property_status) }}</td>
-                                            <td>{{ $property->city($property->city) }}</td>
+                                            <td>{{ $property->city->name }}</td>
                                             <td>{{ $property->property_code }}</td>
                                             <td> <a href="#" id="currentStatus{{ $property->id }}"><span
                                                         class="badge rounded-pill bg-{{ $property->status == 1 ? 'danger' : 'success' }}">{{ $property->status == 1 ? 'Deactive' : 'Active' }}</span></a>

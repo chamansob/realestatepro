@@ -49,22 +49,11 @@ class AgentPropertyController extends Controller
             $amenities = Amenities::pluck('amenities_name')->toArray();
             $plans = PackagePlan::where('user_id', Auth::user()->id)->get();
             $property = Property::where('agent_id', Auth::user()->id)->get();
-            $plan_count = 0;
-            $plan_package_credits = 0;
-            foreach ($plans as  $plan) {
-                $plan_count = $plan_count + $plan->count();
-                $plan_package_credits = $plan->package_credits;
-            }
-            // dd( $plan_package_credits+1);
-            if ($plan_count == 0 && Auth::user()->credit = 1) {
+          
+             //dd( (int)Auth::user()->credit);
+            if ((int)Auth::user()->credit <= $property->count()) {
                 $notification = array(
-                    'message' => 'You can add only One Property',
-                    'alert-type' => 'warning',
-                );
-                return redirect()->route('agent.buy.package')->with($notification);
-            } elseif ($plan_count != 0 && Auth::user()->credit <= ($plan_package_credits + 1)) {
-                $notification = array(
-                    'message' => 'You can add only ' . ($plan->count() + 1) . ' Property',
+                    'message' => 'You can add only ' . (Auth::user()->credit) . ' Property',
                     'alert-type' => 'warning',
                 );
                 return redirect()->route('agent.buy.package')->with($notification);
@@ -103,15 +92,15 @@ class AgentPropertyController extends Controller
             'property_size' => $request->property_size,
             'property_video' => $request->property_video,
             'address' => $request->address,
-            'city' => $request->city,
-            'state' => $request->state,
+            'city_id' => $request->city,
+            'state_id' => $request->state,
             'postal_code' => $request->postal_code,
 
             'neighborhood' => $request->neighborhood,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
-            'featured' => (isset($request->featured) ? $request->featured : 0),
-            'hot' => (isset($request->hot) ? $request->hot : 0),
+            'featured' => 0,
+            'hot' => 0,
             'agent_id' => Auth::user()->id,
             'status' => 1,
             'property_thumbnail' => $save_url,
@@ -208,15 +197,13 @@ class AgentPropertyController extends Controller
             'property_size' => $request->property_size,
             'property_video' => $request->property_video,
             'address' => $request->address,
-            'city' => $request->city,
+            'city_id' => $request->city,
             'state' => $request->state,
             'postal_code' => $request->postal_code,
 
             'neighborhood' => $request->neighborhood,
             'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'featured' => (isset($request->featured) ? $request->featured : 0),
-            'hot' => (isset($request->hot) ? $request->hot : 0),
+            'longitude' => $request->longitude,           
 
         ]);
 
@@ -395,8 +382,7 @@ class AgentPropertyController extends Controller
     }
     public function BuyPackage()
     {
-        $plans = Plan::get();
-
+        $plans = Plan::get();        
         return view('agent.package.buy_package', compact('plans'));
     }
     public function BuyPlan($id)
@@ -407,6 +393,14 @@ class AgentPropertyController extends Controller
     }
     public function BuyPlanStore(Request $request)
     {
+        $plan=Plan::find($request->plan_id);
+        $user =User::find(Auth::user()->id)->first();
+        
+         $packagehistory = PackagePlan::where('user_id', Auth::user()->id)->where('package_name', $plan->plan_name)->get();
+
+     
+        if($request->plan_id!=1 && $packagehistory->count()==0)
+        {
         $current_plan =  Plan::findOrFail($request->plan_id);
         $id = Auth::user()->id;
         $uid = User::findOrFail($id);
@@ -427,13 +421,19 @@ class AgentPropertyController extends Controller
             'message' => 'You have purchase Basic Package Successfully',
             'alert-type' => 'success'
         );
+    }else
+    {
+           $notification = array(
+            'message' => 'Free Plan Already Added',
+            'alert-type' => 'warning'
+        ); 
+    }
 
-        return redirect()->route('agent.properties')->with($notification);
+        return redirect()->route('agent.buy.package.package_history')->with($notification);
     }
 
     public function PackageHistory()
     {
-
         $id = Auth::user()->id;
         $packagehistory = PackagePlan::where('user_id', $id)->get();
         return view('agent.package.package_history', compact('packagehistory'));

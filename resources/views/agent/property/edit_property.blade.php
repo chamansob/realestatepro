@@ -152,7 +152,7 @@
                             <div class="col-sm-3">
                                 <div class="mb-3">
                                     {!! Form::label('state', 'State', ['class' => 'form-label']) !!}
-                                    {!! Form::Select('state', $state, $property->state($property->city), [
+                                    {!! Form::Select('state', $state, $property->state_id, [
                                         'class' => 'form-control',
                                         'id' => 'states',
                                         'placeholder' => 'Select State',
@@ -164,7 +164,7 @@
                                 <div class="mb-3">
                                     {!! Form::label('city', 'City', ['class' => 'form-label']) !!}
 
-                                    {!! Form::Select('city', $cities, $property->city, [
+                                    {!! Form::Select('city', $cities, $property->city_id, [
                                         'class' => 'form-control',
                                         'id' => 'cities_list',
                                         'placeholder' => 'Select city',
@@ -270,7 +270,7 @@
                                 <div class="mb-3">
 
                                     {!! Form::label('amenities_id', 'Property Amenities', ['class' => 'form-label']) !!}
-                                    {!! Form::select('amenities_id[]', $value = $amenities, $property->amenities($property->amenities_id), [
+                                    {!! Form::select('amenities_id[]', $value = $amenities, explode(",",$property->amenities_id), [
                                         'class' => 'form-control js-example-basic-multiple',
                                         'multiple' => true,
                                     ]) !!}
@@ -306,25 +306,7 @@
 
                             </div>
                         </div><!-- Col -->
-                        <div class="col-sm-12">
-                            <div class="mb-3">
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" name="featured" class="form-check-input" id="checkInlineChecked"
-                                        {{ $property->featured == 1 ? 'checked' : '' }} value="1">
-                                    <label class="form-check-label" for="checkInlineChecked">
-                                        Featured Property
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" name="hot" class="form-check-input" id="checkInline"
-                                        {{ $property->hot == 1 ? 'checked' : '' }} value="1">
-                                    <label class="form-check-label" for="checkInline">
-                                        Hot Property
-                                    </label>
-                                </div>
 
-                            </div>
-                        </div>
 
                         <!---end row-->
 

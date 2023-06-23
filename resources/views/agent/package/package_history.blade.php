@@ -33,10 +33,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php
+                                    $pack = ['primary', 'danger', 'success'];
+                                    $i = 0;
+                                    ?>
                                     @foreach ($packagehistory as $packplan)
                                         <tr>
                                             <td>{{ $packplan->id }}</td>
-                                            <td>{{ ucfirst($packplan->package_name) }}</td>
+                                            <td><span
+                                                    class="badge bg-{{ $pack[$i] }}">{{ ucfirst($packplan->package_name) }}</span>
+                                            </td>
                                             <td>{{ ucfirst($packplan->package_credits) }}</td>
                                             <td>{{ ucfirst($packplan->package_amount) }}</td>
                                             <td>{{ $packplan->created_at->format('l d M Y') }}</td>
@@ -48,6 +54,7 @@
                                             </td>
 
                                         </tr>
+                                        <?php $i++; ?>
                                     @endforeach
                                 </tbody>
                             </table>

@@ -41,7 +41,7 @@
             <div class="outer-box">
                 <div class="main-box">
                     <div class="logo-box">
-                        <figure class="logo"><a href="index.html"><img
+                        <figure class="logo"><a href="{{ url('/') }}"><img
                                     src="{{ asset('frontend/assets/images/logo.png') }}" alt=""></a>
                         </figure>
                     </div>
@@ -167,7 +167,7 @@
                         </nav>
                     </div>
                     <div class="btn-box">
-                        <a href="index.html" class="theme-btn btn-one"><span>+</span>Add Listing</a>
+                        <a href="#" class="theme-btn btn-one"><span>+</span>Add Listing</a>
                     </div>
                 </div>
             </div>
@@ -178,7 +178,7 @@
             <div class="outer-box">
                 <div class="main-box">
                     <div class="logo-box">
-                        <figure class="logo"><a href="index.html"><img
+                        <figure class="logo"><a href="{{ url('/') }}"><img
                                     src="{{ asset('frontend/assets/images/logo.png') }}" alt=""></a>
                         </figure>
                     </div>
