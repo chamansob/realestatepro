@@ -52,7 +52,7 @@
                                     </div>
 
                                     <ul class="other-option pull-right clearfix">
-                                        <li><a href="javascript:void(0)" aria-label="Add To Wishlist"
+                                        <li><a href="javascript:void(0)" aria-label="Add To Compare"
                                                 class="action-btn {{ $property->compare($property->id) != 0 ? 'active' : '' }} proc_{{ $property->id }}"
                                                 id="{{ $property->id }}" onclick="addToCompare(this.id)"><i
                                                     class="icon-12"></i></a></li>

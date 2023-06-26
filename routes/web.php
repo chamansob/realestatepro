@@ -171,7 +171,7 @@ require __DIR__ . '/auth.php';
 // Forntend Property Details All Route
 Route::controller(IndexController::class)->group(function () {
     Route::get('/property/details/{id}/{slug}', 'PropertyDetails')->name('property.details');
-    
+    Route::post('/property/message', 'PropertyMessage')->name('property.message');
 });
 Route::controller(WishlistController::class)->group(function () {
     Route::post('/add-to-wishlist/{id}', 'AddToWishList')->name('add.to.wishlist');

@@ -286,7 +286,7 @@
 
     <script type="text/javascript">
         function addToCompare(property_id) {
-            var pro = 'pro_c' + property_id;
+            var pro = 'proc_' + property_id;
             $.ajax({
                 type: "POST",
                 dataType: 'json',
@@ -341,6 +341,8 @@
                         var action = "";
                         var amenitieslist = "";
                         var amenitiesnot = "";
+                        var facilities = "";
+                        var view = "";
                         //head with Image and name
 
                         $.each(response, function(key, value) {
@@ -371,6 +373,9 @@
                             action += `<td>
                     <p><a href="javascript:void(0)" class="text-body" id="${value.id}" onclick="compareRemove(this.id)" ><i class="fa fa-trash"></i></a></p>
                 </td>`;
+                            view += `<td>
+                    <p><a href="/property/details/${value.property.id}/${value.property.property_slug}" class="text-body" ><i class="fa fa-eye"></i></a></p>
+                </td>`;
                             amenitiesnot = "";
                             amenitieslist += `<td>`;
                             $.each(value.property.amenities, function(key, value) {
@@ -383,10 +388,18 @@
                             $.each(value.property.amenitiesNotIncluded, function(key, value) {
                                 amenitiesnot +=
                                     `<p><i class="no fas fa-times"></i> ${value.amenities_name}</p>`
-                                console.log(value.amenities_name);
+                                // console.log(value.amenities_name);
                             });
                             amenitieslist += amenitiesnot;
                             amenitieslist += `</td>`;
+
+                            facilities += `<td>`;
+                            $.each(value.property.facilities, function(key, value) {
+                                facilities +=
+                                    `<p> <strong>${value.facility_name}</strong> : (${value.distance} km)</p>`
+                                // console.log(value.amenities_name);
+                            });
+                            facilities += `</td>`;
                         });
 
                         rows_head += ` <tr>
@@ -412,7 +425,12 @@
                         rows += ` <tr>
                 <td>
                     <p>Amenities</p></td>${amenitieslist} ${amenitiesnot}</tr>`;
-
+                        rows += ` <tr>
+                <td>
+                    <p>Facilities</p></td>${facilities} </tr>`;
+                        rows += ` <tr>
+                <td>
+                    View</td>${view} </tr>`;
                         rows +=
                             ` <tr>
                 <td>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Amenities;
 use App\Models\Compare;
+use App\Models\Facility;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -19,9 +20,12 @@ class CompareController extends Controller
     {
 
         if (Auth::check()) {
-
+            $total = Compare::where('user_id', Auth::id())->get();
+           // dd(count($total));
+            if (count($total) >= 3) {
+                return response()->json(['error' => 'You can compare only three property']);
+            }
             $exists = Compare::where('user_id', Auth::id())->where('property_id', $property_id)->first();
-
             if (!$exists) {
                 Compare::insert([
                     'user_id' => Auth::id(),
@@ -47,21 +51,23 @@ class CompareController extends Controller
     {
 
         $compare = Compare::with(['property' => function ($query) {
-            $query->select('id', 'amenities_id', 'property_name', 'lowest_price', 'property_thumbnail', 'bedrooms', 'bathrooms', 'garage', 'address', 'property_size', 'city_id', 'state_id', 'agent_id', 'created_at');
+            $query->select('id', 'amenities_id', 'property_name','property_slug','lowest_price', 'property_thumbnail', 'bedrooms', 'bathrooms', 'garage', 'address', 'property_size', 'city_id', 'state_id', 'agent_id', 'created_at');
             $query->with('city:id,name');
             $query->with('state:id,name');
         }])
 
             ->where('user_id', Auth::id())->latest()->get();
-            $compare->each(function ($compare) {
+        $compare->each(function ($compare) {
             $amenitiesIds = explode(",", $compare->property->amenities_id);
             $amenities = Amenities::select('id', 'amenities_name')->whereIn('id', $amenitiesIds)->get();
             $compare->property->amenities = $amenities;
             // Retrieve amenities not included in amenities_id array
             $amenitiesNotIncluded = Amenities::select('id', 'amenities_name')->whereNotIn('id', $amenitiesIds)->get();
-
+            
             $compare->property->amenities = $amenities;
-             $compare->property->amenitiesNotIncluded = $amenitiesNotIncluded;
+            $compare->property->amenitiesNotIncluded = $amenitiesNotIncluded;
+            $facilities = Facility::select('facility_name','distance')->where('property_id', $compare->property->id)->get();
+            $compare->property->facilities = $facilities;
             $compare->property->lowest_price = number_format($compare->property->lowest_price, 2); // Applying number_format() to lowest_price
         });
 

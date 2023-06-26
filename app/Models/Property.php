@@ -31,6 +31,10 @@ class Property extends Model
     {
         return $this->belongsToMany(Amenities::class,'amenities_id','id');
     }
+    public function facilities()
+    {
+        return $this->belongsToMany(Facility::class);
+    }
 
     public function wishlist($id)
     {

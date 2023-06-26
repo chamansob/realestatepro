@@ -1,5 +1,6 @@
 @props([
     'name' => '',
+    'link' => 1,
     'bread' => '',
 ])
 <section class="page-title-two bg-color-1 centred">
@@ -14,6 +15,9 @@
             <h1>{{ $name }}</h1>
             <ul class="bread-crumb clearfix">
                 <li><a href="#">Home</a></li>
+                @if ($link)
+                    <li><a href="{{ url('/dashboard') }}">Dashbord</a></li>
+                @endif
                 <li>{{ $bread }}</li>
             </ul>
         </div>

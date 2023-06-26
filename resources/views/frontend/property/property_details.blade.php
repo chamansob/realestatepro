@@ -51,7 +51,9 @@
                     <ul class="other-option pull-right clearfix">
                         <li><a href="#"><i class="icon-37"></i></a></li>
                         <li><a href="#"><i class="icon-38"></i></a></li>
-                        <li><a href="#"><i class="icon-12"></i></a></li>
+                        <li><a href="javascript:void(0)" aria-label="Add To Compare"
+                                class="action-btn {{ $property->compare($property->id) != 0 ? 'active' : '' }} proc_{{ $property->id }}"
+                                id="{{ $property->id }}" onclick="addToCompare(this.id)"><i class="icon-12"></i></a></li>
                         <li><a href="javascript:void(0)" aria-label="Add To Wishlist"
                                 class="action-btn {{ $property->wishlist($property->id) != 0 ? 'active' : '' }} pro_{{ $property->id }}"
                                 id="{{ $property->id }}" onclick="addToWishList(this.id)"><i class="icon-13"></i></a></li>
@@ -222,56 +224,79 @@
                 </div>
                 <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                     <div class="property-sidebar default-sidebar">
-                        <div class="author-widget sidebar-widget">
-                            <div class="author-box">
-                                @if ($property->agent_id == null)
-                                    <figure class="author-thumb"><img
-                                            src="{{ !empty($admin->photo) ? url($admin->photo) : url('upload/no_image.jpg') }}"
-                                            alt=""></figure>
-                                    <div class="inner">
-                                        <h4>Admin </h4>
-                                        <ul class="info clearfix">
-                                            <li><i class="fas fa-map-marker-alt"></i>{{ $admin->address }}</li>
-                                            <li><i class="fas fa-phone"></i><a
-                                                    href="tel:03030571965">{{ $admin->phone }}</a></li>
-                                        </ul>
-                                        <div class="btn-box"><a href="#">View Listing</a></div>
-                                    </div>
-                                @else
-                                    <figure class="author-thumb"><img
-                                            src="{{ !empty($property->user->photo) ? url($property->user->photo) : url('upload/no_image.jpg') }}"
-                                            alt=""></figure>
-                                    <div class="inner">
-                                        <h4>{{ $property->user->name }}</h4>
-                                        <ul class="info clearfix">
-                                            <li><i class="fas fa-map-marker-alt"></i>{{ $property->user->address }}</li>
-                                            <li><i class="fas fa-phone"></i><a
-                                                    href="tel:03030571965">{{ $property->user->phone }}</a></li>
-                                        </ul>
-                                        <div class="btn-box"><a href="agents-details.html">View Listing</a></div>
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="form-inner">
-                                <form action="#" method="post" class="default-form">
+                        @auth
+
+                            <div class="author-widget sidebar-widget">
+                                <div class="author-box">
+                                    @if ($property->agent_id == null)
+                                        <figure class="author-thumb"><img
+                                                src="{{ !empty($admin->photo) ? url($admin->photo) : url('upload/no_image.jpg') }}"
+                                                alt=""></figure>
+                                        <div class="inner">
+                                            <h4>Admin </h4>
+                                            <ul class="info clearfix">
+                                                <li><i class="fas fa-map-marker-alt"></i>{{ $admin->address }}</li>
+                                                <li><i class="fas fa-phone"></i><a
+                                                        href="tel:03030571965">{{ $admin->phone }}</a></li>
+                                            </ul>
+                                            <div class="btn-box"><a href="#">View Listing</a></div>
+                                        </div>
+                                    @else
+                                        <figure class="author-thumb"><img
+                                                src="{{ !empty($property->user->photo) ? url($property->user->photo) : url('upload/no_image.jpg') }}"
+                                                alt=""></figure>
+                                        <div class="inner">
+                                            <h4>{{ $property->user->name }}</h4>
+                                            <ul class="info clearfix">
+                                                <li><i class="fas fa-map-marker-alt"></i>{{ $property->user->address }}</li>
+                                                <li><i class="fas fa-phone"></i><a
+                                                        href="tel:03030571965">{{ $property->user->phone }}</a></li>
+                                            </ul>
+                                            <div class="btn-box"><a href="agents-details.html">View Listing</a></div>
+                                        </div>
+                                    @endif
+
+                                </div>
+                                @php
+                                    $id = Auth::user()->id;
+                                    $userData = App\Models\User::find($id);
+                                @endphp
+                                <div class="form-inner">
+
+                                    {{ Form::open(['route' => 'property.message', 'method' => 'post', 'class' => 'default-form']) }}
+                                    {!! Form::hidden('property_id', $value = $property->id) !!}
+                                    {!! Form::hidden('agent_id', $value = $property->agent_id == null ? null : $property->agent_id) !!}
                                     <div class="form-group">
-                                        <input type="text" name="name" placeholder="Your name" required="">
+                                        {!! Form::text('msg_name', $value = $userData->name, ['class' => 'form-control', 'placeholder' => 'Your Name']) !!}
                                     </div>
                                     <div class="form-group">
-                                        <input type="email" name="email" placeholder="Your Email" required="">
+
+                                        {!! Form::email('msg_email', $value = $userData->email, [
+                                            'class' => 'form-control',
+                                            'placeholder' => 'Your Email',
+                                        ]) !!}
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" name="phone" placeholder="Phone" required="">
+                                        {!! Form::text('msg_phone', $value = $userData->phone, [
+                                            'class' => 'form-control',
+                                            'placeholder' => 'Your Phone',
+                                        ]) !!}
                                     </div>
                                     <div class="form-group">
-                                        <textarea name="message" placeholder="Message"></textarea>
+                                        {!! Form::Textarea('message', $value = null, [
+                                            'class' => 'form-control',
+                                            'rows' => 2,
+                                            'placeholder' => 'Message',
+                                        ]) !!}
                                     </div>
                                     <div class="form-group message-btn">
-                                        <button type="submit" class="theme-btn btn-one">Send Message</button>
+                                        {!! Form::submit('Send Message', ['class' => 'theme-btn btn-one']) !!}
                                     </div>
-                                </form>
+
+                                    {{ Form::close() }}
+                                </div>
                             </div>
-                        </div>
+                        @endauth
                         <div class="calculator-widget sidebar-widget">
                             <div class="calculate-inner">
                                 <div class="widget-title">
