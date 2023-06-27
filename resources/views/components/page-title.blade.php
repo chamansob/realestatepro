@@ -12,13 +12,13 @@
     </div>
     <div class="auto-container">
         <div class="content-box clearfix">
-            <h1>{{ $name }}</h1>
+            <h1>{{ ucfirst($name) }}</h1>
             <ul class="bread-crumb clearfix">
                 <li><a href="#">Home</a></li>
                 @if ($link)
                     <li><a href="{{ url('/dashboard') }}">Dashbord</a></li>
                 @endif
-                <li>{{ $bread }}</li>
+                <li>{{ ucfirst($bread) }}</li>
             </ul>
         </div>
     </div>

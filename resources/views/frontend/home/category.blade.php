@@ -15,7 +15,9 @@
                          <div class="category-block-one">
                              <div class="inner-box">
                                  <div class="icon-box"><i class="{{ $ptype->type_icon }}"></i></div>
-                                 <h5><a href="property-details.html">{{ ucfirst($ptype->type_name) }}</a></h5>
+                                 <h5><a
+                                         href="{{ route('property.type', $ptype->id) }}">{{ ucfirst($ptype->type_name) }}</a>
+                                 </h5>
                                  <span>{{ $property->count() }}</span>
                              </div>
                          </div>

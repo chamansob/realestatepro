@@ -152,8 +152,8 @@ Route::middleware(['auth', 'role:agent'])->prefix('agent')->group(function () {
         Route::patch('/properties/facility_update/{property}', 'facilityUpdate')->name('agent.properties.facility_update');
         Route::get('/properties/facility_delete/{id}', 'facilityDestory')->name('agent.properties.facility_delete');
         // Agent Property Messsage Route from dashboard
-        Route::get('/agent/property/message/', 'AgentPropertyMessage')->name('agent.property.message');  
-        Route::get('/agent/message/details/{id}', 'AgentMessageDetails')->name('agent.message.details'); 
+        Route::get('/property/message/', 'AgentPropertyMessage')->name('agent.property.message');  
+        Route::get('/message/details/{id}', 'AgentMessageDetails')->name('agent.message.details'); 
         // Agent Buy Package Route from dashboard
         Route::get('/buy/package', 'BuyPackage')->name('agent.buy.package');
         Route::get('/buy/plan/{id}', 'BuyPlan')->name('agent.buy.plan');
@@ -177,6 +177,15 @@ require __DIR__ . '/auth.php';
 Route::controller(IndexController::class)->group(function () {
     Route::get('/property/details/{id}/{slug}', 'PropertyDetails')->name('property.details');
     Route::post('/property/message', 'PropertyMessage')->name('property.message');
+    Route::get('/agent/details/{id}', 'AgentDetails')->name('agent.details');
+    // Send Message from Agent Details Page 
+    Route::post('/agent/details/message',  'AgentDetailsMessage')->name('agent.details.message');
+    // Get All Rent Property 
+   Route::get('/rent/property', 'RentProperty')->name('rent.property');
+     // Get All Buy Property 
+   Route::get('/buy/property', 'BuyProperty')->name('buy.property');
+   // Get All Property Type Data 
+ Route::get('/property/type/{id}', 'PropertyType')->name('property.type');
 });
 Route::controller(WishlistController::class)->group(function () {
     Route::post('/add-to-wishlist/{id}', 'AddToWishList')->name('add.to.wishlist');

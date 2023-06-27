@@ -2634,7 +2634,7 @@ div#mCSB_1_container {
 .deals-block-one .inner-box .lower-content .more-details {
     position: relative;
     display: block;
-    margin-bottom: 0px;
+    margin-bottom: 26px;
 }
 
 .deals-block-one .inner-box .lower-content .more-details li {
@@ -7020,8 +7020,8 @@ div#mCSB_1_container {
 
 .property-page-section .deals-block-one .inner-box {
     position: relative;
-    padding: 14px 50px 0px 340px !important;
-    min-height: 200px;
+    padding: 34px 50px 42px 340px !important;
+    min-height: 350px;
     box-shadow: 0 10px 30px 0px rgb(0 0 0 / 10%);
     margin-bottom: 30px;
 }
