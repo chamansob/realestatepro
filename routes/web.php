@@ -72,7 +72,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         //Agent Package Plan
         Route::get('/buy/package_history', 'AdminPackageHistory')->name('admin.package_history');
         Route::get('/buy/package_invoice/{id}', 'AdminPackageInvoice')->name('admin.package_invoice');
-
     });
     // Image Preset All Routes
     Route::resource('image_preset', ImagePresetController::class);
@@ -97,6 +96,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::patch('/properties/facility_update/{property}', 'facilityUpdate')->name('properties.facility_update');
         Route::get('/properties/facility_delete/{id}', 'facilityDestory')->name('properties.facility_delete');
         Route::patch('/properties/status/{property}', 'StatusUpdate')->name('properties.status');
+         // Agent Property Messsage Route from dashboard
+        Route::get('/property/message/', 'AdminPropertyMessage')->name('admin.property.message');
+        Route::get('/message/details/{id}', 'AdminMessageDetails')->name('admin.message.details'); 
+       
     });
     //
 
@@ -148,8 +151,10 @@ Route::middleware(['auth', 'role:agent'])->prefix('agent')->group(function () {
         Route::patch('/properties/multi_img_update_one/{id}', 'multiImageUpdateOne')->name('agent.properties.multi_img_update_one');
         Route::patch('/properties/facility_update/{property}', 'facilityUpdate')->name('agent.properties.facility_update');
         Route::get('/properties/facility_delete/{id}', 'facilityDestory')->name('agent.properties.facility_delete');
-
-        // Agent Buy Package Route from admin
+        // Agent Property Messsage Route from dashboard
+        Route::get('/agent/property/message/', 'AgentPropertyMessage')->name('agent.property.message');  
+        Route::get('/agent/message/details/{id}', 'AgentMessageDetails')->name('agent.message.details'); 
+        // Agent Buy Package Route from dashboard
         Route::get('/buy/package', 'BuyPackage')->name('agent.buy.package');
         Route::get('/buy/plan/{id}', 'BuyPlan')->name('agent.buy.plan');
         Route::get('/buy/package_history', 'PackageHistory')->name('agent.buy.package.package_history');

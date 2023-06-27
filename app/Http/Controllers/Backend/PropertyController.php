@@ -10,6 +10,7 @@ use App\Models\ImagePreset;
 use App\Models\MultiImage;
 use App\Models\Property;
 use App\Models\PropertyType;
+use App\Models\PropertyMessage;
 use App\Models\State;
 use App\Models\User;
 use App\Traits\ImageGenTrait;
@@ -371,4 +372,18 @@ class PropertyController extends Controller
         
         return response()->json(['success'=>'Status changed Successfully']);
     }
+    public function AdminPropertyMessage(){
+
+        $usermsg = PropertyMessage::latest()->get();
+        return view('backend.message.all_message',compact('usermsg'));
+
+    }// End Method  
+    public function AdminMessageDetails($id){
+       
+        $msgdetails = PropertyMessage::findOrFail($id);
+        $usermsg = PropertyMessage::where('agent_id',$msgdetails->agent_id)->get();
+        
+        return view('backend.message.message_details',compact('usermsg','msgdetails'));
+
+    }// End Method 
 }
