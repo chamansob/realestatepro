@@ -23,6 +23,7 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
+                                        <th>Image</th>
                                         <th>Name</th>
                                         <th>Country Name</th>
                                         <th>Status</th>
@@ -33,9 +34,20 @@
                                     @foreach ($states as $state)
                                         <tr>
                                             <td>{{ $state->id }}</td>
+                                            <td>@php
+                                                if (!empty($state->state_image)) {
+                                                    $img = explode('.', $state->state_image);
+                                                    $small_img = $img[0] . '_thumb.' . $img[1];
+                                                } else {
+                                                    $small_img = '/upload/no_image.jpg'; # code...
+                                                }
+                                            @endphp
+                                                <img src="{{ asset($small_img) }}"
+                                                    class="img-thumbnail img-fluid img-responsive w-10">
+                                            </td>
                                             <td>{{ !empty($state->name) ? $state->name : '-' }}</td>
                                             <td>{{ !empty($state->country->name) ? $state->country->name : '-' }}</td>
-                                            <td>
+
 
                                             <td>
                                                 @if ($state->status == 0)

@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <h6 class="card-title">Add State</h6>
 
-                        {{ Form::open(['route' => 'states.store', 'class' => 'forms-sample', 'method' => 'post']) }}
+                        {{ Form::open(['route' => 'states.store', 'class' => 'forms-sample', 'method' => 'post', 'files' => true]) }}
                         <div class="mb-3">
                             {!! Form::label('country_id', 'Country Name', ['class' => 'form-label']) !!}
 
@@ -33,6 +33,25 @@
                             @error('name')
                                 <span class="text-danger pt-3">{{ $message }}</span>
                             @enderror
+                        </div>
+                        <div class="row">
+
+                            <div class="mb-3">
+
+                                {!! Form::label('state_image', 'State Image', ['class' => 'form-label']) !!}
+
+                                {!! Form::file('state_image', [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Main Thumbnail',
+                                    'onchange' => 'mainThamUrl(this)',
+                                ]) !!}
+                                @error('state_image')
+                                    <span class="text-danger pt-3">{{ $message }}</span>
+                                @enderror
+                                <img src="" id="mainThmb">
+
+                            </div>
+
                         </div>
                         {!! Form::submit('Submit', ['class' => 'btn btn-outline-primary btn-icon-text mb-2 mb-md-0']) !!}
                         {{ Form::close() }}

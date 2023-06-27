@@ -25,7 +25,7 @@ class AgentController extends Controller
     use ImageGenTrait;
     public function __construct()
     {
-        $this->image_preset = ImagePreset::whereIn('id', [2, 4])->get();
+        $this->image_preset = ImagePreset::whereIn('id', [2,4,9])->get();
         $this->image_preset_main = ImagePreset::find(3);
     }
     public function AgentDashboard()

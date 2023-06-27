@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('states', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('state_image',100)->nullable();
             $table->unsignedBigInteger('country_id')->index()->nullable();
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');            
             $table->string('status')->default(0);

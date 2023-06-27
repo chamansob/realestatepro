@@ -18,9 +18,20 @@
               @foreach ($agents as $item)
                   <div class="team-block-one">
                       <div class="inner-box">
-                          <figure class="image-box"><img
-                                  src="{{ !empty($item->photo) ? url($item->photo) : url('upload/no_image.jpg') }}"
-                                  alt="" style="width:370px; height:370px;"></figure>
+                          <figure class="image-box">
+                              @php
+                                  if (!empty($item->photo)) {
+                                      $img = explode('.', $item->photo);
+                                      $table_img = $img[0] . '_agent_avatar.' . $img[1];
+                                      $table_img = url($table_img);
+                                  } else {
+                                      $table_img = url('upload/no_image.jpg');
+                                  }
+                              @endphp
+
+
+                              <img src="{{ $table_img }}" alt="">
+                          </figure>
                           <div class="lower-content">
                               <div class="inner">
                                   <h4><a href="{{ route('agent.details', $item->id) }}">{{ $item->name }}</a></h4>

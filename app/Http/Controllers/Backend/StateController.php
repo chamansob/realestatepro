@@ -5,10 +5,19 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\State;
+use App\Models\ImagePreset;
 use Illuminate\Http\Request;
-
+use App\Traits\ImageGenTrait;
 class StateController extends Controller
 {
+    public $path = "upload/state/thumbnail/";
+    public $image_preset;
+    public $image_preset_main;
+    use ImageGenTrait;    
+    public function __construct(){
+    $this->image_preset = ImagePreset::whereIn('id', [11,12])->get();
+    $this->image_preset_main = ImagePreset::find(10);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -37,9 +46,12 @@ class StateController extends Controller
             'name' => 'required|unique:countries|max:200',
             'country_id' => 'required',
         ]);
-
+        $image = $request->file('state_image');
+        $save_url = $this->imageGenrator($image, $this->image_preset_main, $this->image_preset, $this->path);
+        
         State::insert([
             'name' => $request->name,
+            'state_image' =>  $save_url,
             'country_id' => $request->country_id,
             'status' => 1,
         ]);
@@ -86,11 +98,13 @@ class StateController extends Controller
         $validated = $request->validate([
             'name' => 'required|max:200',
         ]);
-
+ $image = $request->file('state_image');
+        $save_url = $this->imageGenrator($image, $this->image_preset_main, $this->image_preset, $this->path);
+        
         $state->update([
             'name' => $request->name,
-            'country_id' => $request->country_id,
-            'status' => $request->status,
+            'state_image' => $save_url,
+            'country_id' => $request->country_id,           
         ]);
         $notification = array(
             'message' => 'State Updated Successfully',

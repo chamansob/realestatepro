@@ -12,9 +12,17 @@
             <div class="agent-details-content">
                 <div class="agents-block-one">
                     <div class="inner-box mr-0">
-                        <figure class="image-box"><img
-                                src="{{ !empty($agent->photo) ? url($agent->photo) : url('upload/no_image.jpg') }}"
-                                alt="" style="width:270px; height:330px;"></figure>
+                        @php
+                            if (!empty($agent->photo)) {
+                                $img = explode('.', $agent->photo);
+                                $table_img = $img[0] . '_agent_avatar.' . $img[1];
+                                $table_img = url($table_img);
+                            } else {
+                                $table_img = url('upload/no_image.jpg');
+                            }
+                        @endphp
+                        <figure class="image-box"><img src="{{ $table_img }}" alt=""
+                                style="width:270px; height:330px;"></figure>
                         <div class="content-box">
                             <div class="upper clearfix">
                                 <div class="title-inner pull-left">

@@ -21,6 +21,7 @@
                             'method' => 'put',
                             'route' => ['states.update', $state->id],
                             'class' => 'forms-sample',
+                            'files' => true,
                         ]) !!}
 
                         <div class="mb-3">
@@ -43,22 +44,35 @@
                                 <span class="text-danger pt-3">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="mb-3">
-                            <?php
-                            $status = [
-                                '0' => 'Active',
-                                '1' => 'Deactive',
-                            ];
-                            ?>
-                            {!! Form::label('status', 'Status', ['class' => 'form-label']) !!}
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <div class="mb-3">
 
-                            {!! Form::Select('status', $status, $state->status, [
-                                'class' => 'form-control',
-                                'placeholder' => 'Select Status',
-                            ]) !!}
-                            @error('status')
-                                <span class="text-danger pt-3">{{ $message }}</span>
-                            @enderror
+                                    {!! Form::label('state_image', 'State Image', ['class' => 'form-label']) !!}
+
+                                    {!! Form::file('state_image', [
+                                        'class' => 'form-control',
+                                        'placeholder' => 'State Image',
+                                        'onchange' => 'mainThamUrl(this)',
+                                    ]) !!}
+                                    @error('state_image')
+                                        <span class="text-danger pt-3">{{ $message }}</span>
+                                    @enderror
+                                    <div class="mt-3"><img src="" id="mainThmb"
+                                            class="img-responsive border border-1">
+                                    </div>
+                                </div>
+                            </div>
+                            @php
+                                if (!empty($state->state_image)) {
+                                    $img = explode('.', $state->state_image);
+                                    $small_img = $img[0] . '_thumb.' . $img[1];
+                                } else {
+                                    $small_img = '/upload/no_image.jpg'; # code...
+                                }
+                            @endphp
+                            <div class="mt-3 col-sm-2"><img src="{{ asset($small_img) }}"
+                                    class="img-thumbnail img-fluid img-responsive w-10"></div>
                         </div>
                         {!! Form::submit('Submit', ['class' => 'btn btn-outline-primary btn-icon-text mb-2 mb-md-0']) !!}
                         {{ Form::close() }}
@@ -70,4 +84,15 @@
         </div>
 
     </div>
+    <script type="text/javascript">
+        function mainThamUrl(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#mainThmb').attr('src', e.target.result).width(80).height(80);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 @endsection
