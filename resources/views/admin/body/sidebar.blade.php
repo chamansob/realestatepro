@@ -170,10 +170,28 @@
                 <div class="collapse" id="testimonial">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{ route('testimonials.index') }}" class="nav-link">All Testimonial</a>
+                            <a href="{{ route('testimonial.index') }}" class="nav-link">All Testimonial</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('testimonials.create') }}" class="nav-link">Add Testimonial</a>
+                            <a href="{{ route('testimonial.create') }}" class="nav-link">Add Testimonial</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#blog" role="button" aria-expanded="false"
+                    aria-controls="planfeature">
+                    <i class="link-icon" data-feather="dollar-sign"></i>
+                    <span class="link-title">Blog</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="blog">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('blog_category.index') }}" class="nav-link">All Blog Category</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('blog_category.create') }}" class="nav-link">Add Blog Category</a>
                         </li>
                     </ul>
                 </div>

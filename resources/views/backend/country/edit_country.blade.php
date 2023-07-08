@@ -8,7 +8,7 @@
                 <li class="breadcrumb-item active" aria-current="page">Edit Countries</li>
                 </li>
             </ol>
-            <a href="{{ route('countries.index') }}" class="btn btn-inverse-info">Show All Type Property</a>
+            <a href="{{ route('countries.index') }}" class="btn btn-inverse-info">Show All Countries</a>
 
         </nav>
 

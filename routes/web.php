@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\PropertyController;
 use App\Http\Controllers\Backend\PropertyTypeController;
 use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\TestimonialController;
+use App\Http\Controllers\Backend\BlogCategoryController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompareController;
@@ -112,9 +113,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::get('/message/details/{id}', 'AdminMessageDetails')->name('admin.message.details');
     });
     //
-    // Property Cities Type All Routes
+    // Property Testimonial  All Routes
     Route::resource('testimonial', TestimonialController::class);
-    // Property Amenities Type All Routes
+    // Blog Category  All Routes
+    Route::resource('blog_category', BlogCategoryController::class);
+    // Property Amenities  All Routes
     Route::resource('amenities', AmenitiesController::class);
 
     // Property Country All Routes
