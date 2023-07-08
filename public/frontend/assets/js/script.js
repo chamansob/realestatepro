@@ -446,6 +446,7 @@
 					easing:'linear'
 				}
 			});
+	
 			
 	
 			// Isotope Filter 
@@ -502,14 +503,14 @@
 		$( ".price-range-slider" ).slider({
 			range: true,
 			min: 0,
-			max: 10000,
-			values: [ 1000, 5000 ],
+			max: 100000,
+			values: [ 10000, 30001 ],
 			slide: function( event, ui ) {
 			$( "input.property-amount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
 			}
 		});
 		
-		$( "input.property-amount" ).val( $( ".price-range-slider" ).slider( "values", 0 ) + " - $" + $( ".price-range-slider" ).slider( "values", 1 ) );	
+		$( "input.property-amount" ).val( $( ".price-range-slider" ).slider( "values", 0 ) + " - " + $( ".price-range-slider" ).slider( "values", 1 ) );	
 	}
 
 	//Area Range Slider
@@ -540,7 +541,8 @@
 
 
 	$(document).ready(function() {
-      $('select:not(.ignore)').niceSelect();
+	//	$('select:not(.ignore)').niceSelect();
+		 $('select:not(.ignore)').select2();
     });
 
 

@@ -34,6 +34,7 @@ class CountryController extends Controller
             'name' => 'required|unique:countries|max:200',
         ]);
 
+
         Country::insert([
             'name' => $request->name,
         ]);

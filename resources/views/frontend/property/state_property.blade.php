@@ -1,8 +1,9 @@
 @extends('frontend.frontend_dashboard')
 @section('main')
     <!--Page Title-->
-    <x-page-title :name="__('Buy Property ')" :bread="__('Buy Property ')" />
+    <x-page-title :name="'Rent Property:' . ucfirst($bstate->name)" :bread="ucfirst($bstate->name)" />
     <!--End Page Title-->
+
 
 
     <!-- property-page-section -->
@@ -10,11 +11,9 @@
         <div class="auto-container">
             <div class="row clearfix">
                 <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
-                    <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
-                        <!-- sidebar-section -->
-                        @include('frontend.property.common.sidebar')
-                        <!-- sidebar-section end -->
-                    </div>
+                    <!-- sidebar-section -->
+                    @include('frontend.property.common.sidebar')
+                    <!-- sidebar-section end -->
                 </div>
                 <div class="col-lg-8 col-md-12 col-sm-12 content-side">
                     <div class="property-content-side">
@@ -46,7 +45,7 @@
                                                 @endif
 
 
-                                                <div class="buy-btn"><a href="property-details.html">For
+                                                <div class="buy-btn"><a href="#">For
                                                         {{ $item->property_status }}</a></div>
                                             </div>
                                             <div class="lower-content">
@@ -58,7 +57,7 @@
                                                 <div class="price-box clearfix">
                                                     <div class="price-info pull-left">
                                                         <h6>Start From</h6>
-                                                        <h4>${{ number_format($item->lowest_price, 2) }}</h4>
+                                                        <h4>${{ $item->lowest_price }}</h4>
                                                     </div>
 
                                                     @if ($item->agent_id == null)
@@ -119,8 +118,6 @@
         </div>
     </section>
     <!-- property-page-section end -->
-
-
     <!-- subscribe-section -->
     @include('frontend.home.subscribe')
     <!-- subscribe-section end -->

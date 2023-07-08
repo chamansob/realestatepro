@@ -1,20 +1,16 @@
 @extends('frontend.frontend_dashboard')
 @section('main')
     <!--Page Title-->
-    <x-page-title :name="__('Buy Property ')" :bread="__('Buy Property ')" />
+    <x-page-title :name="__('Property Search')" :bread="__('Property Search')" />
     <!--End Page Title-->
-
-
     <!-- property-page-section -->
     <section class="property-page-section property-list">
         <div class="auto-container">
             <div class="row clearfix">
                 <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
-                    <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
-                        <!-- sidebar-section -->
-                        @include('frontend.property.common.sidebar')
-                        <!-- sidebar-section end -->
-                    </div>
+                    <!-- sidebar-section -->
+                    @include('frontend.property.common.sidebar')
+                    <!-- sidebar-section end -->
                 </div>
                 <div class="col-lg-8 col-md-12 col-sm-12 content-side">
                     <div class="property-content-side">
@@ -71,7 +67,7 @@
                                                     @else
                                                         <div class="author-box pull-right">
                                                             <figure class="author-thumb">
-                                                                <img src="{{ !empty($item->user->photo) ? url($item->user->photo) : url('upload/no_image.jpg') }}"
+                                                                <img src="{{ !empty($item->user->photo) ? url('upload/agent_images/' . $item->user->photo) : url('upload/no_image.jpg') }}"
                                                                     alt="">
                                                                 <span>{{ $item->user->name }}</span>
                                                             </figure>
@@ -110,17 +106,16 @@
                             </div>
 
                         </div>
-                        <div class="pagination-wrapper">
+                        {{-- <div class="pagination-wrapper">
                             {{ $property->links('vendor.pagination.custom') }}
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- property-page-section end -->
-
-
+    <!-- property-page-section end -->
     <!-- subscribe-section -->
     @include('frontend.home.subscribe')
     <!-- subscribe-section end -->

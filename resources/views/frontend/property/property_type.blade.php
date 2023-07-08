@@ -1,24 +1,9 @@
 @extends('frontend.frontend_dashboard')
 @section('main')
     <!--Page Title-->
-    <section class="page-title-two bg-color-1 centred">
-        <div class="pattern-layer">
-            <div class="pattern-1" style="background-image: url({{ asset('frontend/assets/images/shape/shape-9.png') }});">
-            </div>
-            <div class="pattern-2" style="background-image: url({{ asset('frontend/assets/images/shape/shape-10.png') }});">
-            </div>
-        </div>
-        <div class="auto-container">
-            <div class="content-box clearfix">
-                <h1> {{ $pbread->type_name }} Type Property </h1>
-                <ul class="bread-crumb clearfix">
-                    <li><a href="index.html">Home</a></li>
-                    <li>{{ $pbread->type_name }} </li>
-                </ul>
-            </div>
-        </div>
-    </section>
+    <x-page-title :name="'Property Type: ' . $pbread->type_name" :bread="$pbread->type_name" />
     <!--End Page Title-->
+
 
 
     <!-- property-page-section -->
@@ -26,93 +11,9 @@
         <div class="auto-container">
             <div class="row clearfix">
                 <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
-                    <div class="default-sidebar property-sidebar">
-                        <div class="filter-widget sidebar-widget">
-                            <div class="widget-title">
-                                <h5>Property</h5>
-                            </div>
-                            <div class="widget-content">
-                                <div class="select-box">
-                                    <select class="wide">
-                                        <option data-display="All Type">All Type</option>
-                                        <option value="1">Villa</option>
-                                        <option value="2">Commercial</option>
-                                        <option value="3">Residential</option>
-                                    </select>
-                                </div>
-                                <div class="select-box">
-                                    <select class="wide">
-                                        <option data-display="Select Location">Select Location</option>
-                                        <option value="1">New York</option>
-                                        <option value="2">California</option>
-                                        <option value="3">London</option>
-                                        <option value="4">Maxico</option>
-                                    </select>
-                                </div>
-                                <div class="select-box">
-                                    <select class="wide">
-                                        <option data-display="This Area Only">This Area Only</option>
-                                        <option value="1">New York</option>
-                                        <option value="2">California</option>
-                                        <option value="3">London</option>
-                                        <option value="4">Maxico</option>
-                                    </select>
-                                </div>
-                                <div class="select-box">
-                                    <select class="wide">
-                                        <option data-display="All Type">Max Rooms</option>
-                                        <option value="1">2+ Rooms</option>
-                                        <option value="2">3+ Rooms</option>
-                                        <option value="3">4+ Rooms</option>
-                                        <option value="4">5+ Rooms</option>
-                                    </select>
-                                </div>
-                                <div class="select-box">
-                                    <select class="wide">
-                                        <option data-display="Most Popular">Most Popular</option>
-                                        <option value="1">Villa</option>
-                                        <option value="2">Commercial</option>
-                                        <option value="3">Residential</option>
-                                    </select>
-                                </div>
-                                <div class="select-box">
-                                    <select class="wide">
-                                        <option data-display="All Type">Select Floor</option>
-                                        <option value="1">2x Floor</option>
-                                        <option value="2">3x Floor</option>
-                                        <option value="3">4x Floor</option>
-                                    </select>
-                                </div>
-                                <div class="filter-btn">
-                                    <button type="submit" class="theme-btn btn-one"><i
-                                            class="fas fa-filter"></i>&nbsp;Filter</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="price-filter sidebar-widget">
-                            <div class="widget-title">
-                                <h5>Select Price Range</h5>
-                            </div>
-                            <div class="range-slider clearfix">
-                                <div class="clearfix">
-                                    <div class="input">
-                                        <input type="text" class="property-amount" name="field-name" readonly="">
-                                    </div>
-                                </div>
-                                <div class="price-range-slider"></div>
-                            </div>
-                        </div>
-                        <div class="category-widget sidebar-widget">
-                            <div class="widget-title">
-                                <h5>Status Of Property</h5>
-                            </div>
-                            <ul class="category-list clearfix">
-                                <li><a href="{{ route('rent.property') }}">For Rent <span>(200)</span></a></li>
-                                <li><a href="{{ route('buy.property') }}">For Buy <span>(700)</span></a></li>
-                            </ul>
-                        </div>
-
-                    </div>
+                    <!-- sidebar-section -->
+                    @include('frontend.property.common.sidebar')
+                    <!-- sidebar-section end -->
                 </div>
                 <div class="col-lg-8 col-md-12 col-sm-12 content-side">
                     <div class="property-content-side">
@@ -188,14 +89,13 @@
                                                             class="theme-btn btn-two">See Details</a></div>
                                                     <ul class="other-option pull-right clearfix">
                                                         <li><a aria-label="Compare" class="action-btn"
-                                                                id="{{ $item->id }}"
-                                                                onclick="addToCompare(this.id)"><i
+                                                                id="{{ $item->id }}" onclick="addToCompare(this.id)"><i
                                                                     class="icon-12"></i></a></li>
 
                                                         <li><a aria-label="Add To Wishlist" class="action-btn"
                                                                 id="{{ $item->id }}"
-                                                                onclick="addToWishList(this.id)"><i
-                                                                    class="icon-13"></i></a></li>
+                                                                onclick="addToWishList(this.id)"><i class="icon-13"></i></a>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                             </div>

@@ -8,6 +8,7 @@ use App\Models\Property;
 use App\Models\Wishlist;
 use App\Models\Amenities;
 use App\Models\PackagePlan;
+use App\Models\State;
 use App\Models\PropertyType;
 use App\Models\PropertyMessage;
 use App\Models\Facility;
@@ -129,13 +130,98 @@ class IndexController extends Controller
             return redirect()->back()->with($notification);
         }
     } // End Method 
- public function PropertyType($id){
+    public function PropertyType($id)
+    {
 
-        $property = Property::where('status','1')->where('ptype_id',$id)->get();
+        $property = Property::where('status', '1')->where('ptype_id', $id)->paginate(3);
 
-        $pbread = PropertyType::where('id',$id)->first();
+        $pbread = PropertyType::where('id', $id)->first();
 
-        return view('frontend.property.property_type',compact('property','pbread'));
 
-    }// End Method 
+        return view('frontend.property.property_type', compact('property', 'pbread'));
+    } // End Method 
+    public function StateDetails($id)
+    {
+
+        $property = Property::where('status', '1')->where('state_id', $id)->paginate(3);
+
+        $bstate = State::where('id', $id)->first();
+        return view('frontend.property.state_property', compact('property', 'bstate'));
+    } // End Method 
+    public function BuyPropertySeach(Request $request)
+    {
+        //dd($request);
+
+        $request->validate(
+            [
+                'ptype_id' => 'required',
+            ]
+
+        );
+        $item = $request->search;
+        $sstate = ($request->state == 0) ? '' : $request->state;
+        $sstype = $request->type;
+        $stype = ($request->ptype_id == 0) ? '' : $request->ptype_id;
+
+        $property = Property::where('status', '1')
+            ->where('property_name', 'like', '%' . $item . '%')
+            ->where('property_status', $sstype)
+
+            ->with('type', 'state')
+            ->whereHas('state', function ($q) use ($sstate) {
+                $q->where('name', 'like', '%' . $sstate . '%');
+            })
+            ->whereHas('type', function ($q) use ($stype) {
+                $q->where('type_name', 'like', '%' . $stype . '%');
+            })
+            ->get();
+        //dd($property->toSql(), $property->getBindings());
+        return view('frontend.property.property_search', compact('property'));
+    } // End Method 
+    public function AllPropertySeach(Request $request)
+    {
+
+        // dd($request);
+        $property_status = $request->property_status;
+        $stype = ($request->ptype_id == 0) ? '' : $request->ptype_id;
+        $sstate = ($request->state == 0) ? '' : $request->state;
+        $bedrooms = $request->bedrooms;
+        $bathrooms = $request->bathrooms;
+        //  dd($request->price_range);
+        if (isset($request->price_range) && $request->price_range != "10000 - 30001") {
+            $x = explode("-", $request->price_range);
+            //dd($x);
+            $min_price = ltrim($x[0]);
+            $max_price = ltrim($x[1]);
+
+            $property = Property::where('status', '1')
+                ->where('bedrooms', 'like', '%' . $bedrooms . '%')
+                ->where('bathrooms', 'like', '%' . $bathrooms . '%')
+                ->where('property_status', 'like', '%' . $property_status . '%')
+                ->whereBetween('lowest_price', [$min_price, $max_price])
+                ->with('type', 'state')
+                ->whereHas('state', function ($q) use ($sstate) {
+                    $q->where('name', 'like', '%' . $sstate . '%');
+                })
+                ->whereHas('type', function ($q) use ($stype) {
+                    $q->where('type_name', 'like', '%' . $stype . '%');
+                })->get();
+        } else {
+            $property = Property::where('status', '1')
+                ->where('bedrooms', 'like', '%' . $bedrooms . '%')
+                ->where('bathrooms', 'like', '%' . $bathrooms . '%')
+                ->where('property_status', 'like', '%' . $property_status . '%')
+                ->with('type', 'state')
+                ->whereHas('state', function ($q) use ($sstate) {
+                    $q->where('name', 'like', '%' . $sstate . '%');
+                })
+                ->whereHas('type', function ($q) use ($stype) {
+                    $q->where('type_name', 'like', '%' . $stype . '%');
+                })->get();
+        }
+
+
+        //  dd($property->toSql(), $property->getBindings());
+        return view('frontend.property.property_search', compact('property'));
+    } // End Method 
 }

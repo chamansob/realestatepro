@@ -29,7 +29,9 @@
                             <figure class="image-box"><img src="{{ asset($skip_state_0->state_image) }}" alt=""
                                     style="width:370px; height:580px;"></figure>
                             <div class="text">
-                                <h4><a href="categories.html">{{ $skip_state_0->name }}</a></h4>
+                                <h4><a
+                                        href="{{ route('state.details', $skip_state_0->id) }}">{{ $skip_state_0->name }}</a>
+                                </h4>
                                 <p>{{ count($property_0) }} Properties</p>
                             </div>
                         </div>
@@ -42,7 +44,9 @@
                             <figure class="image-box"><img src="{{ asset($skip_state_1->state_image) }}" alt="">
                             </figure>
                             <div class="text">
-                                <h4><a href="categories.html">{{ $skip_state_1->name }}</a></h4>
+                                <h4><a
+                                        href="{{ route('state.details', $skip_state_1->id) }}">{{ $skip_state_1->name }}</a>
+                                </h4>
                                 <p>{{ count($property_1) }} Properties</p>
                             </div>
                         </div>
@@ -55,7 +59,9 @@
                             <figure class="image-box"><img src="{{ asset($skip_state_2->state_image) }}" alt="">
                             </figure>
                             <div class="text">
-                                <h4><a href="categories.html">{{ $skip_state_2->name }}</a></h4>
+                                <h4><a
+                                        href="{{ route('state.details', $skip_state_2->id) }}">{{ $skip_state_2->name }}</a>
+                                </h4>
                                 <p>{{ count($property_2) }} Properties</p>
                             </div>
                         </div>
@@ -68,7 +74,9 @@
                                     alt="">
                             </figure>
                             <div class="text">
-                                <h4><a href="categories.html">{{ $skip_state_12->name }}</a></h4>
+                                <h4><a
+                                        href="{{ route('state.details', $skip_state_12->id) }}">{{ $skip_state_12->name }}</a>
+                                </h4>
                                 <p>{{ count($property_12) }} Properties</p>
                             </div>
                         </div>
