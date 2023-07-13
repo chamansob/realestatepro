@@ -61,6 +61,12 @@
                                     <div class="mt-3"><img src="" id="mainThmb"
                                             class="img-responsive border border-1">
                                     </div>
+                                    <?php
+                                    $img = explode('.', $state->state_image);
+                                    $small_img = $img[0] . '_thumb.' . $img[1];
+                                    ?>
+                                    <div class="mt-3 col-sm-2"><img src="{{ asset($small_img) }}"
+                                            class="img-thumbnail img-fluid img-responsive w-10"></div>
                                 </div>
                             </div>
                             @php

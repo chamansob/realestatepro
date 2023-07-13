@@ -14,6 +14,8 @@ use App\Http\Controllers\Backend\PropertyTypeController;
 use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\BlogCategoryController;
+use App\Http\Controllers\Backend\BlogController;
+use App\Http\Controllers\Backend\BlogTagController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompareController;
@@ -117,6 +119,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('testimonial', TestimonialController::class);
     // Blog Category  All Routes
     Route::resource('blog_category', BlogCategoryController::class);
+    // Blog Post  All Routes
+    Route::resource('blog', BlogController::class);
+    // Blog Post  All Routes
+    Route::resource('blog_tag', BlogTagController::class);
     // Property Amenities  All Routes
     Route::resource('amenities', AmenitiesController::class);
 
@@ -206,6 +212,10 @@ Route::controller(IndexController::class)->group(function () {
     Route::post('/buy/property/search', [IndexController::class, 'BuyPropertySeach'])->name('buy.property.search');
     // All Property Seach Option
     Route::post('/all/property/search', [IndexController::class, 'AllPropertySeach'])->name('all.property.search');
+    // Blog Details Route 
+    Route::get('/blog/details/{slug}', [BlogController::class, 'BlogDetails']);
+    // Blog by Category Details Route 
+    Route::get('/blog/cat/list/{id}', [BlogController::class, 'BlogCatList']);
 });
 Route::controller(WishlistController::class)->group(function () {
     Route::post('/add-to-wishlist/{id}', 'AddToWishList')->name('add.to.wishlist');

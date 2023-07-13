@@ -270,7 +270,7 @@
                                 <div class="mb-3">
 
                                     {!! Form::label('amenities_id', 'Property Amenities', ['class' => 'form-label']) !!}
-                                    {!! Form::select('amenities_id[]', $value = $amenities, explode(",",$property->amenities_id), [
+                                    {!! Form::select('amenities_id[]', $value = $amenities, explode(',', $property->amenities_id), [
                                         'class' => 'form-control js-example-basic-multiple',
                                         'multiple' => true,
                                     ]) !!}
@@ -377,8 +377,8 @@
                                     @error('property_thumbnail')
                                         <span class="text-danger pt-3">{{ $message }}</span>
                                     @enderror
-                                    <div class="mt-3"><img src="" id="mainThmb"
-                                            class="img-responsive border border-1">
+                                    <div class="mt-3">
+                                        <img src="" id="mainThmb" class="img-responsive border border-1">
                                     </div>
                                 </div>
                             </div>
@@ -437,7 +437,7 @@
                         </div>
                         {!! Form::submit('Add More Images', [
                             'class' => 'btn btn-outline-primary btn-icon-text mb-2
-                                            mb-md-0',
+                                                                    mb-md-0',
                         ]) !!}
                         {{ Form::close() }}
 
@@ -482,7 +482,7 @@
 
                                                 <td>{!! Form::submit('Update Image', [
                                                     'class' => 'btn btn-outline-primary
-                                                                                        btn-icon-text mb-2 mb-md-0',
+                                                                                                                                        btn-icon-text mb-2 mb-md-0',
                                                 ]) !!}
 
 

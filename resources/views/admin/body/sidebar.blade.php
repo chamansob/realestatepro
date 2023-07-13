@@ -197,6 +197,30 @@
                 </div>
             </li>
             <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#post" role="button" aria-expanded="false"
+                    aria-controls="planfeature">
+                    <i class="link-icon" data-feather="dollar-sign"></i>
+                    <span class="link-title">Post</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="post">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('blog.index') }}" class="nav-link">All Post</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('blog.create') }}" class="nav-link">Add Post</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('blog_tag.index') }}" class="nav-link">All Post Tag</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('blog_tag.create') }}" class="nav-link">Add Post Tag</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
                 <a href="{{ route('admin.property.message') }}" class="nav-link">
                     <i class="link-icon" data-feather="calendar"></i>
                     <span class="link-title">Property Message </span>

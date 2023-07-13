@@ -8,15 +8,17 @@ use App\Models\State;
 use App\Models\ImagePreset;
 use Illuminate\Http\Request;
 use App\Traits\ImageGenTrait;
+
 class StateController extends Controller
 {
     public $path = "upload/state/thumbnail/";
     public $image_preset;
     public $image_preset_main;
-    use ImageGenTrait;    
-    public function __construct(){
-    $this->image_preset = ImagePreset::whereIn('id', [11,12])->get();
-    $this->image_preset_main = ImagePreset::find(10);
+    use ImageGenTrait;
+    public function __construct()
+    {
+        $this->image_preset = ImagePreset::whereIn('id', [11, 12, 4])->get();
+        $this->image_preset_main = ImagePreset::find(10);
     }
     /**
      * Display a listing of the resource.
@@ -48,7 +50,7 @@ class StateController extends Controller
         ]);
         $image = $request->file('state_image');
         $save_url = $this->imageGenrator($image, $this->image_preset_main, $this->image_preset, $this->path);
-        
+
         State::insert([
             'name' => $request->name,
             'state_image' =>  $save_url,
@@ -78,7 +80,7 @@ class StateController extends Controller
         $countries = Country::pluck('name', 'id')->toArray();
         return view('backend.state.edit_state', compact('state', 'countries'));
     }
-     public function StatusUpdate(Request $request, State $state)
+    public function StatusUpdate(Request $request, State $state)
     {
         $state->update([
             'status' => ($state->status == 1) ? 0 : 1,
@@ -87,7 +89,7 @@ class StateController extends Controller
             'message' => 'State Status Updated Successfully',
             'alert-type' => 'success',
         );
-        return redirect()->route('properties.show',$state->id)->with($notification);
+        return redirect()->route('properties.show', $state->id)->with($notification);
     }
 
     /**
@@ -98,13 +100,13 @@ class StateController extends Controller
         $validated = $request->validate([
             'name' => 'required|max:200',
         ]);
- $image = $request->file('state_image');
+        $image = $request->file('state_image');
         $save_url = $this->imageGenrator($image, $this->image_preset_main, $this->image_preset, $this->path);
-        
+
         $state->update([
             'name' => $request->name,
             'state_image' => $save_url,
-            'country_id' => $request->country_id,           
+            'country_id' => $request->country_id,
         ]);
         $notification = array(
             'message' => 'State Updated Successfully',
@@ -118,6 +120,14 @@ class StateController extends Controller
      */
     public function destroy(State $state)
     {
+        $img = explode('.', $state->state_image);
+        $small_img = $img[0] . "_thumb." . $img[1];
+        if (file_exists($state->state_image)) {
+            unlink($state->state_image);
+        }
+        if (file_exists($small_img)) {
+            unlink($small_img);
+        }
         $state->delete();
         $notification = array(
             'message' => 'State Deleted successfully',
@@ -125,5 +135,4 @@ class StateController extends Controller
         );
         return redirect()->back()->with($notification);
     }
-
 }
